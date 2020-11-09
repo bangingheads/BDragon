@@ -256,7 +256,6 @@ def create_championfull_json(cdragon_language, ddragon_language):
                         if calculation is not False:
                             spell['calculations'][translate.__getitem__(
                                 i).lower()] = calculation
-                        else:
                     if "mModifiedGameCalculation" in cdragon_ability_bin['mSpell']['{94572284}'][i]:
                         maxdamagetooltip = {
                             'modifiedCalculation': "",

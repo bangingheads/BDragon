@@ -46,7 +46,7 @@ def create_all_images(championfull, items, summoners, path):
         shutil.rmtree(os.path.join(ver_path, "sprite"))
     os.makedirs(os.path.join(ver_path, "sprite"))
 
-    file_names = os.listdir(os.path.join(path, "../img/sprite/"))
+    file_names = os.listdir(os.path.normpath(os.path.join(path, "../img/sprite/")))
     for file_name in file_names:
         shutil.move(os.path.join(os.path.join(path, "../img/sprite/"),
                                  file_name), os.path.join(ver_path, "sprite"))

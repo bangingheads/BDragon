@@ -1,7 +1,6 @@
 import os
 import json
 import requests
-from natsort import natsorted
 
 
 def download_json(url: str, use_cache: bool = True):

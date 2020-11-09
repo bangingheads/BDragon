@@ -2,6 +2,7 @@ import argparse
 import sys
 
 import constants
+import hashes
 import version
 
 args = []
@@ -23,6 +24,8 @@ def init():
         "-language", "-l", help="Generate DDragon for a specific language", default="all")
     parser.add_argument(
         "--force", help="Forces download regardless if patch is already downloaded", action="store_true")
+    parser.add_argument(
+        "--hashes", help="Uses a previously built champion json to find missing datavalue hashes", action="store_true")
     parser.add_argument(
         "--tarball", help="Creates a DDragon tarball in the patch directory", action="store_true")
     args = parser.parse_args()
@@ -57,3 +60,5 @@ def init():
         production = False
     if args.tarball:
         tarball = True
+    if args.hashes:
+        hashes.find_hashes()

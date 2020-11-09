@@ -245,7 +245,6 @@ def create_championfull_json(cdragon_language, ddragon_language):
                 spell['calculations'] = {}
                 for i in cdragon_ability_bin['mSpell']['{94572284}']:
                     if "{50f145c0}" in cdragon_ability_bin['mSpell']['{94572284}'][i]:
-                        print(spell['id'])
                         calculation = create_damage_list(
                             cdragon_ability_bin['mSpell']['{94572284}'][i]['{50f145c0}'])
                         if calculation is not False:
@@ -258,7 +257,6 @@ def create_championfull_json(cdragon_language, ddragon_language):
                             spell['calculations'][translate.__getitem__(
                                 i).lower()] = calculation
                         else:
-                            print("CALCULATION FALSE!")
                     if "mModifiedGameCalculation" in cdragon_ability_bin['mSpell']['{94572284}'][i]:
                         maxdamagetooltip = {
                             'modifiedCalculation': "",
@@ -541,8 +539,8 @@ def blurb(bio):
     try:
         if bio[-1] == ",":
             bio = bio[:-1]
-    except Exception:
-        print(bio)
+    except Exception as ex:
+        print(ex)
     return bio + "..."
 
 
@@ -662,7 +660,6 @@ def create_damage_list(damagelist):
                 'effectIndex': i['mEffectIndex']
             })
         if "mBreakpoints" in i:
-            print(damagelist)
             damage = []
             modifier = 0
             number = 0

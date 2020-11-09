@@ -43,10 +43,11 @@ def create_item_json(cdragon_language, ddragon_language, path):
             'colloq': translate.t(ddragon_language, "game_item_colloquialism_" + id),
             'plaintext': translate.t(ddragon_language, "game_item_plaintext_" + id),
         }
-        try: #Use description in client if exists
+        try:  # Use description in client if exists
             items['data'][id]['description'] = cdragon_item['description']
         except KeyError:
-            translate.t(ddragon_language, item_bin['mItemDataClient']['mDescription'])
+            translate.t(ddragon_language,
+                        item_bin['mItemDataClient']['mDescription'])
         if "maxStack" in item_bin and item_bin['maxStack'] != 1:
             items['data'][id]['stacks'] = item_bin['maxStack']
 
@@ -132,15 +133,12 @@ def create_item_json(cdragon_language, ddragon_language, path):
                     items['data'][id]['group'].append(group.split("/")[-1])
             else:
                 items['data'][id]['group'].append(i.split("/")[-1])
-        print(id)
         if "mDataValues" in item_bin:
             items['data'][id]['datavalues'] = {}
             for i in item_bin['mDataValues']:
-                print(i)
                 items['data'][id]['datavalues'].update({
                     i['mName']: round(i['mValue'], 3) if "mValue" in i else 0
                 })
-
 
     # Remove inactive items from the into and from
     for item in items['data']:

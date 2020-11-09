@@ -7,27 +7,28 @@ import __main__
 import download
 import utils
 
+rst = {}
+
 
 def t(language, translation):
     """
-    Translates RST strings to Regional Strings using i18n as a cache as parsing RST delays load by a lot to retrieve simple things that are used many times
+    Translates RST strings to Regional Strings
     """
-    i18n.set('locale', language)
-    if translation == i18n.t(translation):
-        rst = RstFile(download.download_cdragon_rstfile(language))
-        try:
-            name = rst.__getitem__(translation)
-        except Exception:
-            print("DIDNT FIND: " + translation)
-            name = ""
-        i18n.add_translation(translation, name, locale=language)
-        return name
-    return i18n.t(translation)
+    global rst
+    if language not in rst:
+        rst[language] = RstFile(
+            download.download_cdragon_rstfile(language))
+    try:
+        name = rst[language].__getitem__(translation)
+    except Exception:
+        print("DIDNT FIND: " + translation)
+        name = ""
+    return name
 
 
 def __getitem__(hash):
     """
-    Gets an item from the hashes.txt file if it exists, as CDragon is missing some hashes we create our own
+    Gets an item from the hashes.txt file if it  as well as guessedhashes.txt, as CDragon is missing some hashes we create our own
     """
     if "{" not in str(hash):
         return hash
@@ -37,6 +38,16 @@ def __getitem__(hash):
             for line in search:
                 if stripped_hash in line:
                     print("FOUND: " + line.split(" ", 1)[-1].rstrip())
+                    return line.split(" ", 1)[-1].rstrip()
+    if os.path.exists(os.path.join(os.path.dirname(os.path.realpath(__file__)), "trans/guessedhashes.txt")):
+        stripped_hash = re.findall(r'{(.+?)}', hash)[0]
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "trans/guessedhashes.txt")) as search:
+            for line in search:
+                if stripped_hash in line:
+                    print("USING GUESSED HASH: " +
+                          line.split(" ", 1)[-1].rstrip())
+                    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "trans/hashes.txt"), "a+") as hash_list:
+                        hash_list.write(line)
                     return line.split(" ", 1)[-1].rstrip()
     print("FAILED TO FIND HASH: " + stripped_hash)
     return hash  # Unknown Hash

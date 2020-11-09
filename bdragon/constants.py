@@ -1,0 +1,31 @@
+cdragon_url = 'http://raw.communitydragon.org'
+ddragon_url = 'http://ddragon.leagueoflegends.com'
+
+languages = {
+    'cs_CZ': 'cs_cz',
+    'de_DE': 'de_de',
+    'el_GR': 'el_gr',
+    'en_AU': 'en_au',
+    'en_GB': 'en_gb',
+    'en_PH': 'en_ph',
+    'en_SG': 'en_sg',
+    'en_US': 'default',
+    'es_AR': 'es_ar',
+    'es_ES': 'es_es',
+    'es_MX': 'es_mx',
+    'fr_FR': 'fr_fr',
+    'hu_HU': 'hu_hu',
+    'it_IT': 'it_it',
+    'ja_JP': 'ja_jp',
+    'ko_KR': 'ko_kr',
+    'pl_PL': 'pl_pl',
+    'pt_BR': 'pt_br',
+    'ro_RO': 'ro_ro',
+    'ru_RU': 'ru_ru',
+    'th_TH': 'th_th',
+    'tr_TR': 'tr_tr',
+    'vn_VN': 'vn_vn',
+    'zh_CN': 'zh_cn',
+    'zh_MY': 'zh_my',
+    'zh_TW': 'zh_tw',
+}

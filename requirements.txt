@@ -1,0 +1,7 @@
+requests
+hachoir
+xxhash
+zstd
+Pillow
+python-i18n
+

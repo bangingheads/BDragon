@@ -3,7 +3,6 @@ import shutil
 import sys
 
 import champion
-import constants
 import images
 import item
 import language
@@ -54,27 +53,27 @@ def main():
 
     if not os.path.exists(os.path.join(files, settings.patch['json'])):
         os.makedirs(os.path.join(files, settings.patch['json']))
-    for lang in constants.languages:
+    for lang in settings.languages:
         path = os.path.join(files, f"{settings.patch['json']}/data/{lang}")
         if not os.path.exists(path):
             os.makedirs(path)
 
         championfull = champion.create_champion_jsons(
-            constants.languages[lang], lang, path)
-        items = item.create_item_json(constants.languages[lang], lang, path)
-        maps.create_map_json(constants.languages[lang], path)
-        mission.create_mission_json(constants.languages[lang], path)
-        profileicon.create_profileicon_json(constants.languages[lang], path)
+            settings.languages[lang], lang, path)
+        items = item.create_item_json(settings.languages[lang], lang, path)
+        maps.create_map_json(settings.languages[lang], path)
+        mission.create_mission_json(settings.languages[lang], path)
+        profileicon.create_profileicon_json(settings.languages[lang], path)
         runesreforged.create_runesreforged_json(
-            constants.languages[lang], path)
+            settings.languages[lang], path)
         summoners = summoner.create_summoner_json(
-            constants.languages[lang], lang, path)
+            settings.languages[lang], lang, path)
         language.create_language_json(lang, path)
         sticker.create_sticker_json(path)
 
     images.create_all_images(championfull, items, summoners, files)
     path = os.path.join(files, settings.patch['json'])
-    for lang in constants.languages:
+    for lang in settings.languages:
         champion.add_sprite_info(lang, path)
         item.add_sprite_info(lang, path)
         summoner.add_sprite_info(lang, path)

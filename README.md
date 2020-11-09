@@ -27,6 +27,9 @@ python3 bdragon -p pbe
 
 #download pbe files and create a tarball
 python3 bdragon -p pbe --tarball
+
+#download 10.20 files for only en_US
+python3 bdragon -p 10.20 -l en_US
 ```
 
 ## Sprite Sheets

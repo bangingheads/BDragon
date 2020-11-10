@@ -32,21 +32,21 @@ def __getitem__(hash):
     """
     if "{" not in str(hash):
         return hash
-    if os.path.exists(os.path.join(os.path.dirname(os.path.realpath(__file__)), "trans/hashes.txt")):
+    if os.path.exists(os.path.join(os.path.dirname(os.path.realpath(__file__)), "hashes.txt")):
         stripped_hash = re.findall(r'{(.+?)}', hash)[0]
-        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "trans/hashes.txt")) as search:
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "hashes.txt")) as search:
             for line in search:
                 if stripped_hash in line:
                     print("FOUND: " + line.split(" ", 1)[-1].rstrip())
                     return line.split(" ", 1)[-1].rstrip()
-    if os.path.exists(os.path.join(os.path.dirname(os.path.realpath(__file__)), "trans/guessedhashes.txt")):
+    if os.path.exists(os.path.join(os.path.dirname(os.path.realpath(__file__)), "guessedhashes.txt")):
         stripped_hash = re.findall(r'{(.+?)}', hash)[0]
-        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "trans/guessedhashes.txt")) as search:
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "guessedhashes.txt")) as search:
             for line in search:
                 if stripped_hash in line:
                     print("USING GUESSED HASH: " +
                           line.split(" ", 1)[-1].rstrip())
-                    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "trans/hashes.txt"), "a+") as hash_list:
+                    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "hashes.txt"), "a+") as hash_list:
                         hash_list.write(line)
                     return line.split(" ", 1)[-1].rstrip()
     print("FAILED TO FIND HASH: " + stripped_hash)

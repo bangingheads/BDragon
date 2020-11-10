@@ -2,6 +2,8 @@ from fnvhash import fnv1a_32
 import os
 import re
 import sys
+import random
+import string
 
 import __main__
 import settings
@@ -27,7 +29,7 @@ def find_hashes():
                     string: create_hash(string)
                 })
 
-    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "trans/guessedhashes.txt"), "a+") as file_object:
+    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "guessedhashes.txt"), "a+") as file_object:
         for x in hashes:
             file_object.write(hashes[x] + " " + x + "\n")
     sys.exit("DONE")
@@ -40,13 +42,13 @@ def create_hash(string):
 
 def sort_hashes():
     hashes = {}
-    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "trans/hashes.txt")) as f:
+    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "hashes.txt")) as f:
         for line in f:
             (key, value) = line.rstrip().split(" ", 1)
             hashes[value] = key
     hashes = dict(sorted(hashes.items()))
     os.remove(os.path.join(os.path.dirname(
         os.path.realpath(__file__)), "trans/hashes.txt"))
-    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "trans/hashes.txt"), "a+") as f:
+    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "hashes.txt"), "a+") as f:
         for x in hashes:
             f.write(hashes[x] + " " + x + "\n")

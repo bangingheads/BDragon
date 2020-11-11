@@ -3,7 +3,6 @@ import os
 import re
 import sys
 
-import __main__
 import settings
 import utils
 
@@ -11,7 +10,7 @@ import utils
 def find_hashes():
     hashes = {}
     championfull = utils.load_json(os.path.join(
-        __main__.files, settings.patch['json'] + "/data/en_US/championFull.json"))
+        settings.files, settings.patch['json'] + "/data/en_US/championFull.json"))
 
     for champion in championfull['data']:
         for x in championfull['data'][champion]['spells']:

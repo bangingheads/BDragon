@@ -1,7 +1,6 @@
 import os
 import re
 
-import __main__
 import download
 import utils
 import settings
@@ -82,7 +81,7 @@ def create_champion_json(cdragon_language, ddragon_language):
                 cdragon_bin, ddragon_language).title()
     utils.save_json(
         champions, os.path.join(
-            __main__.files, f"{settings.patch['json']}/data/{ddragon_language}/champion.json"))
+            settings.files, f"{settings.patch['json']}/data/{ddragon_language}/champion.json"))
     return champions
 
 
@@ -381,15 +380,15 @@ def create_championfull_json(cdragon_language, ddragon_language):
 
     utils.save_json(
         champions, os.path.join(
-            __main__.files, f"{settings.patch['json']}/data/{ddragon_language}/championFull.json"))
+            settings.files, f"{settings.patch['json']}/data/{ddragon_language}/championFull.json"))
     return champions
 
 
 def create_individual_champion_json(cdragon_language, ddragon_language, championfull):
     if not os.path.exists(os.path.join(
-            __main__.files, f"{settings.patch['json']}/data/{ddragon_language}/champion")):
+            settings.files, f"{settings.patch['json']}/data/{ddragon_language}/champion")):
         os.makedirs(os.path.join(
-            __main__.files, f"{settings.patch['json']}/data/{ddragon_language}/champion"))
+            settings.files, f"{settings.patch['json']}/data/{ddragon_language}/champion"))
     for x in championfull['data']:
         champion = {
             "type": "champion",
@@ -401,7 +400,7 @@ def create_individual_champion_json(cdragon_language, ddragon_language, champion
         }
     utils.save_json(
         champion, os.path.join(
-            __main__.files, f"{settings.patch['json']}/data/{ddragon_language}/champion/{x}.json"))
+            settings.files, f"{settings.patch['json']}/data/{ddragon_language}/champion/{x}.json"))
 
 
 def add_sprite_info(lang, path):

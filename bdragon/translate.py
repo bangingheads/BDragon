@@ -3,7 +3,6 @@ import os
 import re
 
 from cdragontoolbox.rstfile import RstFile
-import __main__
 import download
 import utils
 

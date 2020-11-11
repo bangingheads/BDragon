@@ -4,3 +4,5 @@ xxhash
 zstd
 Pillow
 fnvhash
+PyYAML
+natsort

@@ -186,6 +186,7 @@ a1ca4cdd Items/ItemGroups/DoransItems
 ea8d4e65 Items/ItemGroups/GuardianItems
 cfc13e40 Items/ItemGroups/HuntersMacheteGroup
 623abcf1 Items/ItemGroups/HuntersTalismanGroup
+cf16f20a Items/ItemGroups/LastWhisper
 22b8e842 Items/ItemGroups/LegendaryClearingItems
 cd9c297f Items/ItemGroups/Potion
 d899ade5 Items/ItemGroups/SLIMEStarterItems
@@ -194,6 +195,7 @@ dcfc9477 Items/ItemGroups/TheBlackSpear
 dcf5bf29 Items/ItemGroups/TotalBiscuit
 7524c3cb Items/ItemGroups/ViktorHexCore
 2ece4364 LaserAPRatio
+bb7c8959 LastWhisper
 a75d142f LegendaryClearingItems
 5b98619f mAbilityHasteMod
 2cf3df7d MSAmount
@@ -270,6 +272,7 @@ ac0467a3 PercentDPSOnHit
 2b0acd0d PercentHealthEmpoweredTOOLTIP
 c4f99250 PercentMissingAmp
 d361f2ed PercentMissingHPRatio
+b779205d PercentOmniVampMod
 85f4c0e9 PercentSuperQDamageTT
 5903b2d5 PercentTotalADAmp
 8426521f PercentageOfBonusHP

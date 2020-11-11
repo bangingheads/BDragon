@@ -1,22 +1,29 @@
 import argparse
+import os
 import sys
+import yaml
 
 import constants
 import hashes
 import version
 
-args = []
 languages = {}
 patch = {}
-production = True
-tarball = False
+config = {}
+
+directory = os.path.abspath(os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), ".."))
+
+files = os.path.join(directory, "files")
 
 
 def init():
+    global config
     global languages
     global patch
-    global production
     global tarball
+    with open(os.path.join(directory, "config.yml"), "r") as ymlfile:
+        config = yaml.load(ymlfile, yaml.Loader)
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-patch", "-p", help="Generate DDragon from specific patch", default="latest")
@@ -57,7 +64,7 @@ def init():
     else:
         sys.exit("Invalid language specified")
     if args.force:
-        production = False
+        config['general']['production'] = False
     if args.tarball:
         tarball = True
     if args.hashes:

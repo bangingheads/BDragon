@@ -1,6 +1,5 @@
 cdragon_url = 'http://raw.communitydragon.org'
 ddragon_url = 'http://ddragon.leagueoflegends.com'
-
 languages = {
     'cs_CZ': 'cs_cz',
     'de_DE': 'de_de',
@@ -28,4 +27,17 @@ languages = {
     'zh_CN': 'zh_cn',
     'zh_MY': 'zh_my',
     'zh_TW': 'zh_tw',
+}
+realms = {
+    "br": "pt_BR",
+    "eune": "en_GB",
+    "euw": "en_GB",
+    "jp": "ja_JP",
+    "kr": "ko_KR",
+    "lan": "es_MX",
+    "las": "es_AR",
+    "na": "en_US",
+    "oce": "en_AU",
+    "tr": "tr_TR",
+    "ru": "ru_RU",
 }

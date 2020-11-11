@@ -95,15 +95,16 @@ def create_item_json(cdragon_language, ddragon_language, path):
 
         items['data'][id]['stats'] = {}
         for i in item_bin:
+            original = i
             if "{" in i:
                 i = translate.__getitem__(i)
             if "Mod" in i and "Mode" not in i and "Modifier" not in i:
                 if i[0] == "m":
                     items['data'][id]['stats'][capitalize(
-                        i[1:])] = round(item_bin[i], 3)
+                        i[1:])] = round(item_bin[original], 3)
                 else:
                     items['data'][id]['stats'][capitalize(
-                        i)] = round(item_bin[i], 3)
+                        i)] = round(item_bin[original], 3)
 
         if 'mEffectAmount' in item_bin:
             items['data'][id]['effect'] = {}

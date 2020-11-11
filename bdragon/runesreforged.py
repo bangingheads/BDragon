@@ -12,31 +12,32 @@ def create_runesreforged_json(lang, path):
     y = 0
     perks = {}
     for x in cdragon_perkstyles['styles']:
-        perks[y] = {}
-        perks[y]['id'] = x['id']
-        perks[y]['key'] = x['name']
-        perks[y]['icon'] = get_perk_path(
-            x['iconPath'])  # This needs to be trimmed
-        perks[y]['name'] = x['name']
-        perks[y]['slots'] = {}
+        perks[y] = {
+            "id": x['id'],
+            "key": x['name'],
+            "icon": get_perk_path(x['iconPath']),
+            "name": x['name'],
+            "slots": {}
+        }
         z = 0
         for slot in x['slots']:
             if slot['type'] == "kStatMod":
                 continue
-            perks[y]['slots'][z] = {}
-            perks[y]['slots'][z]['runes'] = {}
+            perks[y]['slots'][z] = {
+                "runes": {}
+            }
             p = 0
             for perk in slot['perks']:
-                perks[y]['slots'][z]['runes'][p] = {}
-                perks[y]['slots'][z]['runes'][p]['id'] = perk
                 perk_info = get_perk_info(perk, cdragon_runes)
                 perk_bin = get_perk_bin(perk, cdragon_perks_bin)
-                perks[y]['slots'][z]['runes'][p]['key'] = perk_bin['mPerkName']
-                perks[y]['slots'][z]['runes'][p]['icon'] = get_perk_path(
-                    perk_info["iconPath"])
-                perks[y]['slots'][z]['runes'][p]['name'] = perk_info["name"]
-                perks[y]['slots'][z]['runes'][p]['shortDesc'] = perk_info["shortDesc"]
-                perks[y]['slots'][z]['runes'][p]['longDesc'] = perk_info["longDesc"]
+                perks[y]['slots'][z]['runes'][p] = {
+                    "id": perk,
+                    "key": perk_bin['mPerkName'],
+                    "icon": get_perk_path(perk_info["iconPath"]),
+                    "name": perk_info["name"],
+                    "shortDesc": perk_info["shortDesc"],
+                    "longDesc": perk_info["longDesc"]
+                }
                 p += 1
             z += 1
         y += 1

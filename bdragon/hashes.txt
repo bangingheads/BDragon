@@ -195,6 +195,7 @@ dcf5bf29 Items/ItemGroups/TotalBiscuit
 7524c3cb Items/ItemGroups/ViktorHexCore
 2ece4364 LaserAPRatio
 a75d142f LegendaryClearingItems
+5b98619f mAbilityHasteMod
 2cf3df7d MSAmount
 7cd353fb ManaRestoreTooltip
 1e5c2386 MaxBonusDamagePercent

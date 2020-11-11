@@ -7,18 +7,19 @@ import utils
 
 def create_profileicon_json(lang, path):
     cdragon_profileicons = download.download_versioned_cdragon_profileicons_summary()
-
-    profileicon = {}
-    profileicon["type"] = "profileicon"
-    profileicon["version"] = settings.patch['json']
-    profileicon["data"] = {}
+    profileicon = {
+        "type": "profileicon",
+        "version": settings.patch['json'],
+        "data": {}
+    }
     for x in cdragon_profileicons:
-        id = x["id"]
-        profileicon["data"][id] = {}
-        profileicon["data"][id]["id"] = id
-        profileicon["data"][id]["image"] = {}
-        profileicon["data"][id]["image"]["full"] = str(id) + ".png"
-
+        icon_id = x["id"]
+        profileicon["data"][icon_id] = {
+            "id": icon_id,
+            "image": {
+                "full": str(icon_id) + ".png"
+            }
+        }
     utils.save_json(profileicon, os.path.join(path, "profileicon.json"))
     return profileicon
 

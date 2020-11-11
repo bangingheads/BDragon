@@ -95,6 +95,8 @@ def create_item_json(cdragon_language, ddragon_language, path):
 
         items['data'][id]['stats'] = {}
         for i in item_bin:
+            if "{" in i:
+                i = translate.__getitem__(i)
             if "Mod" in i and "Mode" not in i and "Modifier" not in i:
                 if i[0] == "m":
                     items['data'][id]['stats'][capitalize(

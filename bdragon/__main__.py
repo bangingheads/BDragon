@@ -14,8 +14,6 @@ import settings
 import sticker
 import summoner
 import tarball
-import translate
-import utils
 import version
 
 

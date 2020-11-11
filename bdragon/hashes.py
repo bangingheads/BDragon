@@ -2,8 +2,6 @@ from fnvhash import fnv1a_32
 import os
 import re
 import sys
-import random
-import string
 
 import __main__
 import settings

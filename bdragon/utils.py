@@ -58,8 +58,7 @@ def download_file(url: str, use_cache: bool = True):
     fn = os.path.join(fn, url2.replace("/", "@"))
 
     if use_cache and os.path.exists(fn):
-        with open(fn, "rb") as f:
-            j = f.read()
+        return fn
     else:
         try:
             image = requests.get(url)
@@ -69,7 +68,7 @@ def download_file(url: str, use_cache: bool = True):
         if use_cache:
             with open(fn, "wb") as f:
                 f.write(j)
-    return fn
+        return fn
 
 
 def save_json(data, filename):

@@ -13,12 +13,12 @@ def create_map_json(lang, path):
         "data": {},
     }
     for x in cdragon_maps:
-        id = x["id"]
-        maps["data"][id] = {
+        map_id = x["id"]
+        maps["data"][map_id] = {
             "MapName": x['name'],
-            "MapId": str(id),
+            "MapId": str(map_id),
             "image": {
-                'full': "map" + str(id) + ".png",
+                'full': "map" + str(map_id) + ".png",
             },
         }
 
@@ -29,10 +29,10 @@ def create_map_json(lang, path):
 def add_sprite_info(lang, path):
     data = utils.load_json(os.path.join(path, "spriter_output.json"))
     maps = utils.load_json(os.path.join(path, f"data/{lang}/map.json"))
-    for map in maps['data']:
-        key = "map" + map
+    for map_id in maps['data']:
+        key = "map" + map_id
         try:
-            maps['data'][map]['image'].update({
+            maps['data'][map_id]['image'].update({
                 'sprite': data['result']['map'][key]['regular']['texture'] + ".png",
                 'group': "map",
                 'x': data['result']['map'][key]['regular']['x'],

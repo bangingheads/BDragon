@@ -9,7 +9,7 @@ import translate
 
 
 def create_item_json(cdragon_language, ddragon_language, path):
-    # Using DDragon info for basic, groups, and tree as these don't seem to be in files anywhere
+    # Using DDragon info for basic, groups, and tree as we don't have all the hashes to build these
     ddragon_items = download.download_versioned_ddragon_items(ddragon_language)
 
     cdragon_items_bin = download.download_versioned_cdragon_items_bin()
@@ -42,6 +42,7 @@ def create_item_json(cdragon_language, ddragon_language, path):
             'description': "",
             'colloq': translate.t(ddragon_language, "game_item_colloquialism_" + id),
             'plaintext': translate.t(ddragon_language, "game_item_plaintext_" + id),
+            'epicness': ""
         }
         try:  # Use description in client if exists
             items['data'][id]['description'] = cdragon_item['description']
@@ -51,6 +52,8 @@ def create_item_json(cdragon_language, ddragon_language, path):
         if "maxStack" in item_bin and item_bin['maxStack'] != 1:
             items['data'][id]['stacks'] = item_bin['maxStack']
 
+        if "specialRecipe" in item_bin:
+            items['data'][id]['specialRecipe'] = item_bin['specialRecipe']
         if "recipeItemLinks" in item_bin:
             items['data'][id]['from'] = []
             for item_from in item_bin['recipeItemLinks']:
@@ -142,7 +145,24 @@ def create_item_json(cdragon_language, ddragon_language, path):
                 items['data'][id]['datavalues'].update({
                     i['mName']: round(i['mValue'], 3) if "mValue" in i else 0
                 })
-
+        if settings.patch['ddragon'] > "10.22.1":
+            if "Boots" in items['data'][id]['group']:
+                items['data'][id]['epicness'] = "BOOTS"
+            elif "Consumable" in items['data'][id]['group']:
+                items['data'][id]['epicness'] = "CONSUMABLE"
+            elif "from" not in items['data'][id] and "specialRecipe" not in items['data'][id]:
+                if "epicness" in item_bin and item_bin['epicness'] == 1:
+                    items['data'][id]['epicness'] = "STARTER"
+                else:
+                    items['data'][id]['epicness'] = "BASIC"
+            elif "epicness" in item_bin and item_bin['epicness'] == 4:
+                items['data'][id]['epicness'] = "EPIC"
+            elif "epicness" in item_bin and item_bin['epicness'] == 5:
+                items['data'][id]['epicness'] = "LEGENDARY"
+            elif "epicness" in item_bin and item_bin['epicness'] == 6:
+                items['data'][id]['epicness'] = "MYTHIC"
+        else:
+            del items['data'][id]['epicness']
     # Remove inactive items from the into and from
     for item in items['data']:
         if "into" in items['data'][item]:
@@ -234,4 +254,4 @@ def calculate_item_price(cdragon_item_bin, item_bin):
                                 (cdragon_item_bin[z]['price']
                                  if "price" in cdragon_item_bin[z] else 0)
         return price
-    return 0
+    return price

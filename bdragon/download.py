@@ -77,7 +77,8 @@ def download_versioned_cdragon_champion_icon(champion_id):
 
 def download_versioned_cdragon_item_icon(item_id):
     item_id = item_id.lower().split("/")[-1].replace(".dds", ".png")
-    if settings.patch['cdragon'] == "pbe":  # Season 11 items in different location
+    # Season 11 items in different location
+    if settings.patch['cdragon'] == "pbe" or settings.patch['cdragon'] > "10.22":
         return utils.download_image(constants.cdragon_url + f"/{settings.patch['cdragon']}/game/assets/items/icons2d/{item_id}")
     else:
         return utils.download_image(constants.cdragon_url + f"/{settings.patch['cdragon']}/game/data/items/icons2d/{item_id}")

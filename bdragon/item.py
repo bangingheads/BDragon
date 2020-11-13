@@ -148,8 +148,10 @@ def create_item_json(cdragon_language, ddragon_language, path):
         if settings.patch['ddragon'] > "10.22.1":
             if "Boots" in items['data'][id]['group']:
                 items['data'][id]['epicness'] = "BOOTS"
-            elif "Consumable" in items['data'][id]['group']:
+            elif "Consumable" in items['data'][id]['group'] or "Consumable" in items['data'][id]['tags']:
                 items['data'][id]['epicness'] = "CONSUMABLE"
+            elif "Trinket" in items['data'][id]['group'] or "Trinket" in items['data'][id]['tags']:
+                items['data'][id]['epicness'] = "TRINKET"
             elif "from" not in items['data'][id] and "specialRecipe" not in items['data'][id]:
                 if "epicness" in item_bin and item_bin['epicness'] == 1:
                     items['data'][id]['epicness'] = "STARTER"

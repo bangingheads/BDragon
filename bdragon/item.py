@@ -31,15 +31,16 @@ def create_item_json(cdragon_language, ddragon_language, path):
     items["data"] = {}
     for x in cdragon_items_bin:
         item_bin = cdragon_items_bin[x]
-        if "mItemDataAvailability" not in item_bin or ("{2e97ceab}" not in item_bin['mItemDataAvailability'] and "mForceLoad" not in item_bin['mItemDataAvailability'] and "mInStore" not in item_bin['mItemDataAvailability']):
+        if ("mItemDataAvailability" not in item_bin or ("{2e97ceab}" not in item_bin['mItemDataAvailability'] and "mForceLoad" not in item_bin['mItemDataAvailability'] and "mInStore" not in item_bin['mItemDataAvailability'])) and ("mItemModifiers" not in item_bin or "{1fb38586}" not in item_bin['mItemModifiers']):
             continue
         cdragon_item = [d for d in cdragon_items if d['id']
                         == item_bin['itemID']][0]
         id = str(item_bin['itemID'])
 
         items['data'][id] = {
-            'name': translate.t(ddragon_language, item_bin['mDisplayName']),
+            'name': sanitize(translate.t(ddragon_language, item_bin['mDisplayName'])),
             'description': "",
+            "sanitizedDescription": "",
             'colloq': translate.t(ddragon_language, "game_item_colloquialism_" + id),
             'plaintext': translate.t(ddragon_language, "game_item_plaintext_" + id),
             'epicness': ""
@@ -47,8 +48,13 @@ def create_item_json(cdragon_language, ddragon_language, path):
         try:  # Use description in client if exists
             items['data'][id]['description'] = cdragon_item['description']
         except KeyError:
-            translate.t(ddragon_language,
-                        item_bin['mItemDataClient']['mDescription'])
+            items['data'][id]['description'] = translate.t(ddragon_language,
+                                                           item_bin['mItemDataClient']['mDescription'])
+        if "GeneratedTip" in items['data'][id]['description']:
+            items['data'][id]['description'] = translate.t(
+                ddragon_language, items['data'][id]['description'])
+        items['data'][id]['sanitizedDescription'] = sanitize(
+            items['data'][id]['description'])
         if "maxStack" in item_bin and item_bin['maxStack'] != 1:
             items['data'][id]['stacks'] = item_bin['maxStack']
 
@@ -152,14 +158,14 @@ def create_item_json(cdragon_language, ddragon_language, path):
                 items['data'][id]['epicness'] = "CONSUMABLE"
             elif "Trinket" in items['data'][id]['group'] or "Trinket" in items['data'][id]['tags']:
                 items['data'][id]['epicness'] = "TRINKET"
-            elif "from" not in items['data'][id] and "specialRecipe" not in items['data'][id]:
+            elif "from" not in items['data'][id] and "specialRecipe" not in items['data'][id] and "GuardianItems" not in items['data'][id]['group']:
                 if "epicness" in item_bin and item_bin['epicness'] == 1:
                     items['data'][id]['epicness'] = "STARTER"
                 else:
                     items['data'][id]['epicness'] = "BASIC"
             elif "epicness" in item_bin and item_bin['epicness'] == 4:
                 items['data'][id]['epicness'] = "EPIC"
-            elif "epicness" in item_bin and item_bin['epicness'] == 5:
+            elif "epicness" in item_bin and item_bin['epicness'] == 5 or "GuardianItems" in items['data'][id]['group']:
                 items['data'][id]['epicness'] = "LEGENDARY"
             elif "epicness" in item_bin and item_bin['epicness'] == 6:
                 items['data'][id]['epicness'] = "MYTHIC"
@@ -257,3 +263,25 @@ def calculate_item_price(cdragon_item_bin, item_bin):
                                  if "price" in cdragon_item_bin[z] else 0)
         return price
     return price
+
+
+def sanitize(text):
+    """
+    Remove html tags from a string
+    Removes strings wrapped in %s
+    Adds periods to br and li tags
+    Fixes spacing
+    """
+    text = text.replace("<br>", ".")
+    clean = re.compile('<.*?>')
+    clean_text = re.sub(clean, '', text)
+    clean = re.compile(r'\%.*?\%')
+    clean_text = re.sub(clean, '', clean_text)
+    clean_text = clean_text.replace("  ", " ")
+    clean_text = clean_text.replace(". .", ".")
+    periods = re.compile(r'\.{2,}')
+    clean_text = re.sub(periods, '.', clean_text)
+    if clean_text != "" and (clean_text[0] == " " or clean_text[0] == "."):
+        clean_text = clean_text[1:]
+    clean_text = re.sub(r'(?<=[.,])(?=[^\s\d])', r' ', clean_text)
+    return clean_text

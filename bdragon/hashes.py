@@ -34,7 +34,10 @@ def find_hashes():
 
 def create_hash(string):
     string = str.encode(string.lower())
-    return hex(fnv1a_32(string))[2:]
+    hash_string = hex(fnv1a_32(string))[2:]
+    if len(hash_string) == 7:
+        hash_string = "0" + hash_string
+    return hash_string
 
 
 def sort_hashes():

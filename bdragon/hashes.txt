@@ -235,6 +235,7 @@ d7d2c722 MonsterCapBase
 34a302bc MonsterDamage
 8809e19c MonsterDamageCap
 b4d8f040 MovementSpeedPercent
+09b588a2 MovespeedBuff
 8a4eacf3 MultiHitAmp
 552b8146 MultiHitRatio
 d366aae3 MultiMissileReduction

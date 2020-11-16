@@ -273,9 +273,10 @@ def sanitize(text):
     Fixes spacing
     """
     text = text.replace("<br>", ".")
+    text = text.replace(" <li>", ".")
     clean = re.compile('<.*?>')
     clean_text = re.sub(clean, '', text)
-    clean = re.compile(r'\%.*?\%')
+    clean = re.compile(r'\%[^\s]+\%')
     clean_text = re.sub(clean, '', clean_text)
     clean_text = clean_text.replace("  ", " ")
     clean_text = clean_text.replace(". .", ".")

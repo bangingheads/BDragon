@@ -11,6 +11,7 @@ ad23e4de APRatioPerStack
 f328829b APRatioPerTick
 86bcfb2e APRatioTick
 e78fad4a APRatioToPercentDamage
+eaef1b9e APRatioTooltip
 0b31873d ActiveADToArmorRatio
 682f991b ActiveAPToMRRatio
 6721e4a1 ActiveBaseResists
@@ -33,25 +34,25 @@ a0bde86c AmmoRechargeRateBaseTooltip
 f5b9972d AttackBonusDamage
 f3f201bd AttackBonusDamageTT
 a54c8020 AttackDamageTT
+01caf267 AttackTotalDMG
 f2aa68b0 AugmentShieldBonus
 f7e6cdeb AuraDamage
 8d4753a6 AuraDamagePerSecond
 292bbdbb BADRatio
 df52861f BaseBiteDamage
 ff2cfd2e BaseCritDamageMultiplier
-aac14126 BaseDamage
 725eb199 BaseDamageAftershock
 4d8f85ee BaseDamageBeam
 efacf1b1 BaseDamageBounce
 52261e78 BaseDamageLaser
 a878fcc2 BaseDamageMinTooltip
 06f7a042 BaseDamageNamed
+27fb6084 BaseDamagePerSecond
 b4932a85 BaseDamagePerTick
 c417cd94 BaseDamageTooltip
 d509ced9 BaseDamageTotal
 3edb82f4 BaseDamageTotalTooltip
 ca91b80b BaseDamageTransferPercent
-27fb6084 BaseDamagerPerSecond
 59fb98d8 BaseDetonationDamage
 57ecfba9 BaseHealTooltip
 e011aa89 BaseKnockupDuration
@@ -176,6 +177,7 @@ d4dcf549 GangplankRUpgrade03
 b731ff3d GrantedAllyMR
 4224383c GrantedBraumArmor
 54b024e6 GrantedBraumMR
+8296b308 GravitumRBonusSlow
 05ea28cd GravitumRBonusSlowBase
 3207ba02 GuardianItems
 363b1402 HandleDamage
@@ -184,6 +186,8 @@ b731ff3d GrantedAllyMR
 40108a0d HealBasePerSecond
 9c98ef71 HealTADCoefficient
 60ccb0e2 HealingAmpForLowHealthAllies
+f38a49c9 HealingPercentTooltip
+46ae650d HealthCostTooltip
 6c9a0655 HealthPercentDamage
 3d27aa7f HealthPercentTooltip
 88eac71d HealthPercentTotalTooltip
@@ -196,7 +200,9 @@ f14634fa HuntersTalismanGroup
 973a3117 ImpactBaseDamage
 ec6115d6 ImpactDamage
 303a6fd8 ImpactDamageTotal
+a44698ed InfernumRBonusDamage
 359ab6e0 InfernumRBonusDamageBase
+6c1e1e2e InfernumRPenalty
 1aa8109b InitialBaseDamage
 a133d007 InitialBurstBaseDamage
 19d777a6 InitialBurstDamage
@@ -244,7 +250,6 @@ cabca0ba MaxShieldMult
 3d536cd9 MaxSpeedCalc
 5493a8c7 MaxSpheresToUse
 f3e2154d MaxStun
-6b932875 MaxStunDuration
 dbe58260 MidDamage
 a46364be MidDamageMult
 268fe30d MinDamageTooltip
@@ -288,7 +293,7 @@ a09dd13f OnHitAPRatio
 d4a2ad0d OnHitBuffDamage
 20f24dee OrbAPRatio
 f5a80e5f OrbDamage
-8126d356 OuterConeMaxHPDamage
+aac14126 OuterConeMaxHPDamage
 d8705294 OuterEdgeTooltip
 cf9d3cb7 PVEDamage
 258b832c PassThroughDamage
@@ -315,6 +320,7 @@ ac0467a3 PercentDPSOnHit
 c4f99250 PercentMissingAmp
 d361f2ed PercentMissingHPRatio
 b779205d PercentOmniVampMod
+1c17c0d1 PercentPhysicalVampMod
 906817a9 PercentSuperQDamageTT
 5903b2d5 PercentTotalADAmp
 8426521f PercentageOfBonusHP
@@ -388,10 +394,10 @@ cafcc1c4 ShieldPerChampion
 b2044582 ShieldPercentHealthTooltip
 140bdb48 SingleFireDamage
 4f9d2d87 SlashDamage
+fc9607de SlayerDamage
 b685c4c2 SlayerHealPercent
 cf1733d7 SlayerMaxHPBaseDamage
 1bf14cf3 SlayerMaxHPDamagerPer100AD
-9738309b SlowDurationAtMaxMultiplier
 ec3b23ad SmallDamage
 8592e8a4 SmallSharkDamage
 6abad9b9 SpinDuration
@@ -401,7 +407,6 @@ ec3b23ad SmallDamage
 bed1a105 SubesquentDamage
 475333c2 SubsequentBurstBaseDamage
 79be7972 SuperQBasePercentage
-dda10554 SuperQMonsterMaxDamage
 8c73f2c0 SuperQMonsterMaxDamageTotal
 cbb497b6 SweetSpotDamage
 62be67ad SweetSpotDamageTooltip
@@ -411,6 +416,7 @@ d547ff49 TantrumDamage
 20ebfeef TapDamage
 232980d2 TauntDamage
 f030db34 TheBlackSpear
+de9168fe ThrowDamage
 725b3462 ThrustDamage
 4d036a97 ThunderclapBaseDamage
 b61ae7ed ThunderclapBaseDamageAPRatio
@@ -432,6 +438,7 @@ b09a4aae TimeBetweenVesselTentacleSlams
 2f2b53a0 TimeToAfterburners
 c0359ed0 TooltipBaseDamage
 426d7ce1 TooltipDamage
+c05e5c87 TooltipHealthCost
 01b20ba9 TooltipMaxTargetsHit
 f34bcd47 TooltipTotalDamage
 08a30ad0 TotalAD
@@ -455,7 +462,6 @@ e9533816 TotalDamageNearestCrit
 b27a6a1b TotalDamageOffTargetTooltip
 e11b40fd TotalDamagePassive
 14fb8a67 TotalDamagePerSecond
-21e3fd66 TotalDamageReflection
 bcc89a20 TotalDamageTT
 f2cbde43 TotalDamageTooltip
 f5bd40f9 TotalDetonationDamage
@@ -497,6 +503,7 @@ eaf11e4c TotalSlowAmount
 f4e9b5ef UpfrontShieldHealthRatio
 9f59f055 VanillaBase
 a0054fa1 VanillaDamage
+45c81bbe VanillaFalloff
 4cbd3804 ViktorHexCore
 1983e226 VoidlingBonusDamageTooltip
 c6bf92da WBaseDamage

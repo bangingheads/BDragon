@@ -4,6 +4,7 @@ import re
 
 from cdragontoolbox.rstfile import RstFile
 import download
+import hashes
 import utils
 
 rst = {}
@@ -47,6 +48,7 @@ def __getitem__(hash):
                           line.split(" ", 1)[-1].rstrip())
                     with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "hashes.txt"), "a+") as hash_list:
                         hash_list.write(line)
+                    hashes.sort_hashes()
                     return line.split(" ", 1)[-1].rstrip()
     print("FAILED TO FIND HASH: " + stripped_hash)
     return hash  # Unknown Hash

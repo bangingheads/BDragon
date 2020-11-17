@@ -160,3 +160,9 @@ def download_versioned_cdragon_recommended(recommended_string):
 
 def download_cdragon_rstfile(language):
     return utils.download_file(constants.cdragon_url + f"/{settings.patch['cdragon']}/game/data/menu/fontconfig_{language.lower()}.txt")
+
+
+def download_versioned_cdragon_shared_bin():
+    shared = utils.download_json(
+        constants.cdragon_url + f"/{settings.patch['cdragon']}/game/data/shared/shared.bin.json")
+    return {key: value for (key, value) in shared.items() if "mSpell" in shared[key] and "mClientData" in shared[key]['mSpell'] and "mTooltipData" in shared[key]['mSpell']['mClientData'] and shared[key]['mSpell']['mClientData']['mTooltipData']['mFormat'] == "UX/Tooltips/SummonerSpell"}

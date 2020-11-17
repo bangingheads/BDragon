@@ -1,57 +1,95 @@
 import os
+import sys
 
+import champion
 import download
 import settings
+import translate
 import utils
 
 
 def create_summoner_json(cdragon_language, ddragon_language, path):
     """
     Creates DDragon summoner.json
-    Highly relies on DDragon, could be improved upon but they don't change often
     """
     cdragon_summoners = download.download_versioned_cdragon_summoner_spells(
         cdragon_language)
     ddragon_summoners = download.download_versioned_ddragon_summoner_spells(
         ddragon_language)
+    spells_bin = download.download_versioned_cdragon_shared_bin()
+
     summoners = {
         "type": "summoner",
         "version": settings.patch['json'],
         "data": {},
     }
-    for x in (x for x in cdragon_summoners if x['name'] != ""):
+    for x in spells_bin:
+        spell_bin = spells_bin[x]['mSpell']
+        name = translate.t(
+            ddragon_language, spell_bin['mClientData']['mTooltipData']['mLocKeys']['keyName'])
+        cdragon_summoner = [d for d in cdragon_summoners if d['name'] == name]
+        if len(cdragon_summoner) == 0:
+            continue
+        else:
+            cdragon_summoner = cdragon_summoner[0]
         try:
-            ddragon_spell = get_ddragon_id(x['id'], ddragon_summoners)
             summoners['data'].update({
-                ddragon_spell['id']: {
-                    "id": ddragon_spell['id'],
-                    "name": x['name'],
-                    "description": x['description'],
-                    "tooltip": ddragon_spell['tooltip'],
+                spells_bin[x]['mScriptName']: {
+                    "id": spells_bin[x]['mScriptName'],
+                    "name": translate.t(ddragon_language, spell_bin['mClientData']['mTooltipData']['mLocKeys']['keyName']),
+                    "description": translate.t(ddragon_language, spell_bin['mClientData']['mTooltipData']['mLocKeys']['keySummary']),
+                    "tooltip": champion.get_tooltip(translate.t(ddragon_language, spell_bin['mClientData']['mTooltipData']['mLocKeys']['keyTooltip'])),
                     "maxrank": 1,
-                    "cooldown": [x['cooldown']],
-                    "cooldownBurn": str(x['cooldown']),
+                    "cooldown": [spell_bin['cooldownTime'][0]] if "cooldownTime" in spell_bin else [10],
+                    "cooldownBurn": champion.remove_trailing_zeros(str(spell_bin['cooldownTime'][0])) if "cooldownTime" in spell_bin else ["10"],
                     "datavalues": {},
-                    "effect": ddragon_spell['effect'],
-                    "effectBurn": ddragon_spell['effectBurn'],
-                    "vars": ddragon_spell['vars'],
-                    "key": str(x['id']),
-                    "summonerLevel": x['summonerLevel'],
-                    "modes": x['gameModes'],
-                    "costType": ddragon_spell['costType'],
-                    "maxammo": ddragon_spell['maxammo'],
-                    "range": ddragon_spell['range'],
-                    "rangeBurn": ddragon_spell['rangeBurn'],
+                    "effect": [],
+                    "effectBurn": [],
+                    "vars": [],  # Need f values somehow on these
+                    "key": str(cdragon_summoner['id']),
+                    "summonerLevel": cdragon_summoner['summonerLevel'],
+                    "modes": cdragon_summoner['gameModes'],
+                    "costType": translate.t(ddragon_language, "Spell_Cost_NoCost"),
+                    "maxammo": champion.remove_trailing_zeros(str(spell_bin['mMaxAmmo'][0])) if "mMaxAmmo" in spell_bin else "-1",
+                    "range": [spell_bin['castRange'][0]],
+                    "rangeBurn": champion.remove_trailing_zeros(str(spell_bin['castRange'][0])),
                     "image": {
-                        "full": ddragon_spell['id'] + ".png"
+                        "full": spells_bin[x]['mScriptName'] + ".png"
                     },
-                    "resource": ddragon_spell['resource'],
+                    "resource": translate.t(ddragon_language, "Spell_Cost_NoCost"),
                 }
             })
+            spell = summoners['data'][spells_bin[x]['mScriptName']]
+            if "mDataValues" in spell_bin:
+                for i in spell_bin['mDataValues']:
+                    if "mValues" in i:
+                        values = [round(i['mValues'][0], 3)]
+                        spell['datavalues'].update({
+                            i['mName'].lower(): values,
+                        })
+            spell['effect'].append(None)
+            spell['effectBurn'].append(None)
+            if "mEffectAmount" in spell_bin:
+                for i in spell_bin['mEffectAmount']:
+                    if "value" in i:
+                        spell['effect'].append([i['value'][0]])
+                        spell['effectBurn'].append(
+                            champion.remove_trailing_zeros(str(i['value'][0])))
+                    else:
+                        spell['effect'].append([0])
+                        spell['effectBurn'].append("0")
+            else:
+                for i in range(10):
+                    spell['effect'].append([0])
+                    spell['effectBurn'].append("")
+            if spell['maxammo'] != "-1" and "mMaxAmmo" in spell_bin:
+                spell['ammorechargetime'] = spell_bin['mAmmoRechargeTime'][0]
         except Exception as ex:
-            print(ex + "Failure on Summoner Spell: " + x['name'])
+            print("Failure on Summoner Spell: " + spells_bin[x]['mScriptName'])
+            print(ex)
             continue
-
+    summoners['data'] = {k: summoners['data'][k]
+                         for k in sorted(summoners['data'])}
     utils.save_json(summoners, os.path.join(path, "summoner.json"))
     return summoners
 

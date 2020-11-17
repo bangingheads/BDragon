@@ -83,4 +83,7 @@ def main():
 
 if __name__ == "__main__":
     settings.init()
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        sys.exit('Keyboard Canceled Run.')

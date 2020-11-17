@@ -51,8 +51,8 @@ def create_summoner_json(cdragon_language, ddragon_language, path):
                     "modes": cdragon_summoner['gameModes'],
                     "costType": translate.t(ddragon_language, "Spell_Cost_NoCost"),
                     "maxammo": champion.remove_trailing_zeros(str(spell_bin['mMaxAmmo'][0])) if "mMaxAmmo" in spell_bin else "-1",
-                    "range": [spell_bin['castRange'][0]],
-                    "rangeBurn": champion.remove_trailing_zeros(str(spell_bin['castRange'][0])),
+                    "range": [spell_bin['castRangeDisplayOverride'][0] if "castRangeDisplayOverride" in spell_bin else spell_bin['castRange'][0]],
+                    "rangeBurn": champion.remove_trailing_zeros(str(spell_bin['castRangeDisplayOverride'][0] if "castRangeDisplayOverride" in spell_bin else spell_bin['castRange'][0])),
                     "image": {
                         "full": spells_bin[x]['mScriptName'] + ".png"
                     },
@@ -72,9 +72,9 @@ def create_summoner_json(cdragon_language, ddragon_language, path):
             if "mEffectAmount" in spell_bin:
                 for i in spell_bin['mEffectAmount']:
                     if "value" in i:
-                        spell['effect'].append([i['value'][0]])
+                        spell['effect'].append([round(i['value'][0], 3)])
                         spell['effectBurn'].append(
-                            champion.remove_trailing_zeros(str(i['value'][0])))
+                            champion.remove_trailing_zeros(str(round(i['value'][0], 3))))
                     else:
                         spell['effect'].append([0])
                         spell['effectBurn'].append("0")
@@ -84,6 +84,7 @@ def create_summoner_json(cdragon_language, ddragon_language, path):
                     spell['effectBurn'].append("")
             if spell['maxammo'] != "-1" and "mMaxAmmo" in spell_bin:
                 spell['ammorechargetime'] = spell_bin['mAmmoRechargeTime'][0]
+            spell['vars'] = ddragon_summoners[spell['id']]['vars']
         except Exception as ex:
             print("Failure on Summoner Spell: " + spells_bin[x]['mScriptName'])
             print(ex)

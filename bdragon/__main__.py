@@ -56,7 +56,7 @@ def main():
         items = item.create_item_json(settings.languages[lang], lang, path)
         maps.create_map_json(settings.languages[lang], path)
         mission.create_mission_json(settings.languages[lang], path)
-        profileicon.create_profileicon_json(settings.languages[lang], path)
+        profileicon.create_profileicon_json(lang, path)
         runesreforged.create_runesreforged_json(
             settings.languages[lang], path)
         summoners = summoner.create_summoner_json(
@@ -72,7 +72,7 @@ def main():
         summoner.add_sprite_info(lang, path)
         maps.add_sprite_info(lang, path)
         mission.add_sprite_info(lang, path)
-        summoner.add_sprite_info(lang, path)
+        profileicon.add_sprite_info(lang, path)
 
     os.remove(os.path.join(path, "spriter_output.json"))
     if settings.config['general']['tarball'] == True:

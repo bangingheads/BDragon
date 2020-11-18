@@ -84,7 +84,7 @@ def create_summoner_json(cdragon_language, ddragon_language, path):
                     spell['effectBurn'].append("")
             if spell['maxammo'] != "-1" and "mMaxAmmo" in spell_bin:
                 spell['ammorechargetime'] = spell_bin['mAmmoRechargeTime'][0]
-            spell['vars'] = ddragon_summoners[spell['id']]['vars']
+            spell['vars'] = ddragon_summoners['data'][spell['id']]['vars']
         except Exception as ex:
             print("Failure on Summoner Spell: " + spells_bin[x]['mScriptName'])
             print(ex)

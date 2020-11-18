@@ -85,8 +85,8 @@ def create_item_json(cdragon_language, ddragon_language, path):
         items['data'][id]['gold'] = {
             'base': item_bin['price'] if "price" in item_bin else 0,
             'purchasable': True if "mItemDataAvailability" in item_bin and "mInStore" in item_bin['mItemDataAvailability'] else False,
-            'total': calculate_item_price(cdragon_items_bin, item_bin) if "price" in item_bin else 0,
-            'sell': round_half_up(calculate_item_price(cdragon_items_bin, item_bin) * (item_bin['sellBackModifier'] if 'sellBackModifier' in item_bin else 0.7)) if "price" in item_bin else 0,
+            'total': calculate_item_price(cdragon_items_bin, item_bin) if "price" in item_bin or "Items/ItemGroups/OrnnItems" in item_bin['mItemGroups'] else 0,
+            'sell': round_half_up(calculate_item_price(cdragon_items_bin, item_bin) * (item_bin['sellBackModifier'] if 'sellBackModifier' in item_bin else 0.7)) if "price" in item_bin or "Items/ItemGroups/OrnnItems" in item_bin['mItemGroups'] else 0,
         }
 
         # Categories not in game files
@@ -133,6 +133,9 @@ def create_item_json(cdragon_language, ddragon_language, path):
 
         if "mRequiredAlly" in item_bin:
             items['data'][id]['requiredAlly'] = item_bin['mRequiredAlly']
+        # Patch 10.23+ Fix
+        elif "Items/ItemGroups/OrnnItems" in item_bin['mItemGroups']:
+            items['data'][id]['requiredAlly'] = "Ornn"
 
         if "mRequiredChampion" in item_bin:
             items['data'][id]['requiredChampion'] = item_bin['mRequiredChampion']
@@ -245,7 +248,7 @@ def round_half_up(val):
 
 
 def calculate_item_price(cdragon_item_bin, item_bin):
-    price = item_bin['price']
+    price = item_bin['price'] if "price" in item_bin else 0
     if "recipeItemLinks" in item_bin:
         for x in item_bin['recipeItemLinks']:
             price = price + \

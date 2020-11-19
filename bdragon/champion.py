@@ -71,6 +71,7 @@ def create_champion_json(cdragon_language, ddragon_language):
                 'attackdamageperlevel': round(if_key_exists('damagePerLevel', cdragon_bin), 3),
                 'attackspeedperlevel': round(if_key_exists('attackSpeedPerLevel', cdragon_bin), 3),
                 'attackspeed': round(cdragon_bin['attackSpeed'], 3),
+                'attackspeedratio': round(cdragon_bin['attackSpeedRatio'], 3),
             },
         })
         # Need to be able to find the game_ability_resource strings from CDragon
@@ -151,15 +152,10 @@ def create_championfull_json(cdragon_language, ddragon_language):
                 'attackdamageperlevel': round(if_key_exists('damagePerLevel', cdragon_bin), 3),
                 'attackspeedperlevel': round(if_key_exists('attackSpeedPerLevel', cdragon_bin), 3),
                 'attackspeed': round(cdragon_bin['attackSpeed'], 3),
+                'attackspeedratio': round(cdragon_bin['attackSpeedRatio'], 3),
             },
             'spells': [],
-            'passive': {
-                'name': cdragon_champion['passive']['name'],
-                'description': cdragon_champion['passive']['description'],
-                'image': {
-                    'full': get_icon_name(cdragon_champion['passive']['abilityIconPath'])
-                },
-            },
+            'passive': {},
             'recommended': [],
         })
         champions['data'][champion]['skins'] = []
@@ -193,12 +189,12 @@ def create_championfull_json(cdragon_language, ddragon_language):
             })
             if "mClientData" in cdragon_ability_bin['mSpell'] and "mTooltipData" in cdragon_ability_bin['mSpell']['mClientData'] and "mLocKeys" in cdragon_ability_bin['mSpell']['mClientData']['mTooltipData']:
                 if "keyTooltipExtendedBelowLine" in cdragon_ability_bin['mSpell']['mClientData']['mTooltipData']['mLocKeys']:
-                    spell['tooltip'] = get_tooltip(translate.t(ddragon_language, cdragon_ability_bin['mSpell']['mClientData']['mTooltipData']['mLocKeys']['keyTooltip']) + " " + translate.t(ddragon_language,
-                                                                                                                                                                                             cdragon_ability_bin['mSpell']['mClientData']['mTooltipData']['mLocKeys']['keyTooltipExtendedBelowLine']))
+                    spell['tooltip'] = get_tooltip(ddragon_language, translate.t(ddragon_language, cdragon_ability_bin['mSpell']['mClientData']['mTooltipData']['mLocKeys']['keyTooltip']) +
+                                                   " " + translate.t(ddragon_language, cdragon_ability_bin['mSpell']['mClientData']['mTooltipData']['mLocKeys']['keyTooltipExtendedBelowLine']))
                 else:
                     if "keyTooltip" in cdragon_ability_bin['mSpell']['mClientData']['mTooltipData']['mLocKeys']:
-                        spell['tooltip'] = get_tooltip(translate.t(ddragon_language,
-                                                                   cdragon_ability_bin['mSpell']['mClientData']['mTooltipData']['mLocKeys']['keyTooltip']))
+                        spell['tooltip'] = get_tooltip(ddragon_language, translate.t(
+                            ddragon_language, cdragon_ability_bin['mSpell']['mClientData']['mTooltipData']['mLocKeys']['keyTooltip']))
             try:
                 spell['maxrank'] = cdragon_ability_bin['mSpell']['mClientData']['mTooltipData']['mLists']['LevelUp']['levelCount']
             except KeyError:
@@ -243,44 +239,9 @@ def create_championfull_json(cdragon_language, ddragon_language):
             if "{94572284}" in cdragon_ability_bin['mSpell']:
                 spell['calculations'] = {}
                 for i in cdragon_ability_bin['mSpell']['{94572284}']:
-                    if "{50f145c0}" in cdragon_ability_bin['mSpell']['{94572284}'][i]:
-                        calculation = create_damage_list(
-                            cdragon_ability_bin['mSpell']['{94572284}'][i]['{50f145c0}'])
-                        if calculation is not False:
-                            spell['calculations'][translate.__getitem__(
-                                i).lower()] = calculation
-                    if "mFormulaParts" in cdragon_ability_bin['mSpell']['{94572284}'][i]:
-                        calculation = create_damage_list(
-                            cdragon_ability_bin['mSpell']['{94572284}'][i]['mFormulaParts'])
-                        if calculation is not False:
-                            spell['calculations'][translate.__getitem__(
-                                i).lower()] = calculation
-                    if "mModifiedGameCalculation" in cdragon_ability_bin['mSpell']['{94572284}'][i]:
-                        maxdamagetooltip = {
-                            'modifiedCalculation': "",
-                            'multiplier': {}
-                        }
-                        maxdamagetooltip.update({
-                            'modifiedCalculation': translate.__getitem__(cdragon_ability_bin['mSpell']['{94572284}'][i]['mModifiedGameCalculation']).lower()
-                        })
-
-                        for j in cdragon_ability_bin['mSpell']['{94572284}'][i]['mMultiplier']:
-                            if j == "mBreakpoints":
-                                maxdamagetooltip['multiplier'].update({
-                                    j[1:].lower(): create_damage_list(cdragon_ability_bin['mSpell']['{94572284}'][i])
-                                })
-                            elif "part" in j.lower():
-                                maxdamagetooltip['multiplier'].update({
-                                    j[1:].lower(): create_damage_list(cdragon_ability_bin['mSpell']['{94572284}'][i]['mMultiplier'][j])
-                                })
-                            else:
-                                maxdamagetooltip['multiplier'].update({
-                                    j[1:].lower(): translate.__getitem__(
-                                        cdragon_ability_bin['mSpell']['{94572284}'][i]['mMultiplier'][j])
-                                })
-                        if maxdamagetooltip != {}:
-                            spell['calculations'][translate.__getitem__(
-                                i).lower()] = maxdamagetooltip
+                    spell['calculations'].update({
+                        translate.__getitem__(i).lower(): get_calculation(cdragon_ability_bin['mSpell']['{94572284}'][i])
+                    })
             if "formulas" in cdragon_champion['spells'][y]:
                 spell['formulas'] = {}
                 for i in cdragon_champion['spells'][y]['formulas']:
@@ -319,8 +280,8 @@ def create_championfull_json(cdragon_language, ddragon_language):
                     if spell_var['key'] in spell['tooltip']:
                         spell['vars'].append(spell_var)
                     j += 1
-            spell['costType'] = remove_html_tags(get_tooltip(
-                cdragon_champion['spells'][y]['cost']))
+            spell['costType'] = remove_html_tags(get_tooltip(ddragon_language,
+                                                             cdragon_champion['spells'][y]['cost']))
             if "}}" in spell['costType']:
                 spell['costType'] = spell['costType'].split("}}", 1)[1]
             spell['maxammo'] = str(cdragon_champion['spells'][y]['ammo']['maxAmmo'][0]
@@ -336,8 +297,8 @@ def create_championfull_json(cdragon_language, ddragon_language):
             spell['image'] = {}
             spell['image']['full'] = spell['id'] + ".png"
             champions['data'][champion]['spells'].append(spell)
-            spell['resource'] = remove_html_tags(get_tooltip(
-                cdragon_champion['spells'][y]['cost']))
+            spell['resource'] = remove_html_tags(get_tooltip(ddragon_language,
+                                                             cdragon_champion['spells'][y]['cost']))
             try:
                 for desc in cdragon_ability_bin['mSpell']['mClientData']['mTooltipData']['mLists']['LevelUp']['elements']:
                     if "nameOverride" in desc:
@@ -368,6 +329,45 @@ def create_championfull_json(cdragon_language, ddragon_language):
             except KeyError:
                 print("No leveltip " + spell['id'])
             y += 1
+
+        # Passive
+        cdragon_passive_bin = download.download_versioned_cdragon_champion_bin_ability(
+            champion, cdragon_bin['{e96f0412}'] if "{e96f0412}" in cdragon_bin else cdragon_bin['passiveSpell'])
+        champions['data'][champion]['passive'].update({
+            'id': cdragon_passive_bin['mScriptName'].split("/")[-1],
+            'name': cdragon_champion['passive']['name'],
+            'description': cdragon_champion['passive']['description'],
+            'tooltip': get_tooltip(ddragon_language, translate.t(ddragon_language, cdragon_passive_bin['mSpell']['mClientData']['mTooltipData']['mLocKeys']['keyTooltip'])),
+            'image': {
+                'full': get_icon_name(cdragon_champion['passive']['abilityIconPath'])
+            },
+            'datavalues': {},
+        })
+        if "mDataValues" in cdragon_passive_bin['mSpell']:
+            for i in cdragon_passive_bin['mSpell']['mDataValues']:
+                if "mValues" in i:
+                    values = []
+                    for m in range(spell['maxrank']):
+                        value = i['mValues'][m]
+                        if "mFormula" in i:
+                            try:
+                                value = round(eval(i['mFormula'].replace(
+                                    "P", str(value)).replace("N", str(m))), 3)
+                            except Exception:
+                                value = round(eval(re.sub(
+                                    r'\b0+(?!\b)', '', i['mFormula'].replace("P", str(value)).replace("N", str(m)))), 3)
+                        else:
+                            value = round(value, 3)
+                        values.append(value)
+                    champions['data'][champion]['passive']['datavalues'].update({
+                        i['mName'].lower(): values,
+                    })
+        if "{94572284}" in cdragon_passive_bin['mSpell']:
+            champions['data'][champion]['passive']['calculations'] = {}
+            for i in cdragon_passive_bin['mSpell']['{94572284}']:
+                champions['data'][champion]['passive']['calculations'].update({
+                    translate.__getitem__(i).lower(): get_calculation(cdragon_passive_bin['mSpell']['{94572284}'][i])
+                })
         for x in cdragon_champion['recommendedItemDefaults']:
             champions['data'][champion]['recommended'].append(
                 download.download_versioned_cdragon_recommended(x))
@@ -576,10 +576,14 @@ def get_burn_string(burn_string):
     return new_burn[:-1]
 
 
-def get_tooltip(tooltip):
+def get_tooltip(lang, tooltip):
     """
     CDragon descriptions are @Effect@, DDragon has them in {{ effect }}
     """
+    for f in re.findall(r'\{\{(.*?)\}\}', tooltip):
+        string = f.replace(" ", "")
+        string = translate.t(lang, string)
+        tooltip = tooltip.replace(f"{{{{{f}}}}}", string, 1)
     for f in re.findall(r'\@(.*?)\@', tooltip):
         tooltip = tooltip.replace(f"@{f}@", f"@{f.lower()}@", 1)
     x = re.sub(r'\@(.*?)\@', r'{{ \1 }}', tooltip)
@@ -677,6 +681,8 @@ def create_damage_list(damagelist):
                     if "mLevel" in k and j + 1 == k['mLevel']:
                         modifier = round(
                             k['{57fdc438}'], 3) if '{57fdc438}' in k else 0
+                        if "{d5fd07ed}" in k:
+                            number = number + round(k['{d5fd07ed}'], 3)
                 number = round(number + modifier, 3)
                 damage.append(number)
             listitem.update({
@@ -719,6 +725,10 @@ def create_damage_list(damagelist):
             listitem.update({
                 'subparts': create_damage_list(i['mSubparts'])
             })
+        if "mSubpart" in i:
+            damage_list = create_damage_list(i['mSubpart'])
+            if damage_list != []:
+                listitem.update(damage_list[0])
         if "mPart" in i:
             listitem.update({
                 'part' + i[-1]: create_damage_list(i[i])
@@ -726,3 +736,43 @@ def create_damage_list(damagelist):
         if listitem != {}:
             totaldamagetooltip.append(listitem)
     return totaldamagetooltip
+
+
+def get_calculation(ability_bin):
+    calculation = {}
+    if "{50f145c0}" in ability_bin:
+        calculation = create_damage_list(ability_bin['{50f145c0}'])
+        if calculation is not False:
+            return calculation
+    if "mFormulaParts" in ability_bin:
+        calculation = create_damage_list(ability_bin['mFormulaParts'])
+        if calculation is not False:
+            return calculation
+    if "mModifiedGameCalculation" in ability_bin:
+        calculation = {
+            'modifiedCalculation': "",
+            'multiplier': {}
+        }
+        calculation.update({
+            'modifiedCalculation': translate.__getitem__(ability_bin['mModifiedGameCalculation']).lower()
+        })
+        for j in ability_bin['mMultiplier']:
+            if j == "mBreakpoints":
+                calculation['multiplier'].update({
+                    j[1:].lower(): create_damage_list(ability_bin)
+                })
+            elif j == "mNumber":
+                calculation['multiplier'].update({
+                    j[1:].lower(): round(ability_bin['mMultiplier'][j], 3)
+                })
+            elif "part" in j.lower():
+                calculation['multiplier'].update({
+                    j[1:].lower(): create_damage_list(ability_bin['mMultiplier'][j])
+                })
+            else:
+                calculation['multiplier'].update({
+                    j[1:].lower(): translate.__getitem__(
+                        ability_bin['mMultiplier'][j])
+                })
+        return calculation
+    return None

@@ -38,7 +38,7 @@ def create_summoner_json(cdragon_language, ddragon_language, path):
                     "id": spells_bin[x]['mScriptName'],
                     "name": translate.t(ddragon_language, spell_bin['mClientData']['mTooltipData']['mLocKeys']['keyName']),
                     "description": translate.t(ddragon_language, spell_bin['mClientData']['mTooltipData']['mLocKeys']['keySummary']),
-                    "tooltip": champion.get_tooltip(translate.t(ddragon_language, spell_bin['mClientData']['mTooltipData']['mLocKeys']['keyTooltip'])),
+                    "tooltip": champion.get_tooltip(ddragon_language, translate.t(ddragon_language, spell_bin['mClientData']['mTooltipData']['mLocKeys']['keyTooltip'])),
                     "maxrank": 1,
                     "cooldown": [spell_bin['cooldownTime'][0]] if "cooldownTime" in spell_bin else [10],
                     "cooldownBurn": champion.remove_trailing_zeros(str(spell_bin['cooldownTime'][0])) if "cooldownTime" in spell_bin else ["10"],

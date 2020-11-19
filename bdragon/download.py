@@ -132,7 +132,7 @@ def download_versioned_cdragon_champion_bin_ability(champion, ability):
     cdragon_bin = utils.download_json(
         constants.cdragon_url + f"/{settings.patch['cdragon']}/game/data/characters/{champion.lower()}/{champion.lower()}.bin.json")
     for x in cdragon_bin:
-        if "mScriptName" in cdragon_bin[x] and cdragon_bin[x]['mScriptName'] == ability:
+        if ("mScriptName" in cdragon_bin[x] and cdragon_bin[x]['mScriptName'] == ability) or x == ability:
             return cdragon_bin[x]
     return False
 

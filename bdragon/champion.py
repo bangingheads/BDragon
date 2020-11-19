@@ -67,6 +67,7 @@ def create_champion_json(cdragon_language, ddragon_language):
                 'mpregenperlevel': round(if_key_exists('arRegenPerLevel', cdragon_bin['primaryAbilityResource']) * 5, 3),
                 'crit': 0,
                 'critperlevel': 0,
+                'critdamage': round(cdragon_bin['critDamageMultiplier'], 3) if "critDamageMultiplier" in cdragon_bin else 1.75,
                 'attackdamage': round(cdragon_bin['baseDamage'], 3),
                 'attackdamageperlevel': round(if_key_exists('damagePerLevel', cdragon_bin), 3),
                 'attackspeedperlevel': round(if_key_exists('attackSpeedPerLevel', cdragon_bin), 3),
@@ -148,6 +149,7 @@ def create_championfull_json(cdragon_language, ddragon_language):
                 'mpregenperlevel': round(if_key_exists('arRegenPerLevel', cdragon_bin['primaryAbilityResource']) * 5, 3),
                 'crit': 0,
                 'critperlevel': 0,
+                'critdamage': round(cdragon_bin['critDamageMultiplier'], 3) if "critDamageMultiplier" in cdragon_bin else 1.75,
                 'attackdamage': round(cdragon_bin['baseDamage'], 3),
                 'attackdamageperlevel': round(if_key_exists('damagePerLevel', cdragon_bin), 3),
                 'attackspeedperlevel': round(if_key_exists('attackSpeedPerLevel', cdragon_bin), 3),
@@ -229,9 +231,9 @@ def create_championfull_json(cdragon_language, ddragon_language):
                                         "P", str(value)).replace("N", str(m))), 3)
                                 except Exception:
                                     value = round(eval(re.sub(
-                                        r'\b0+(?!\b)', '', i['mFormula'].replace("P", str(value)).replace("N", str(m)))), 3)
+                                        r'\b0+(?!\b)', '', i['mFormula'].replace("P", str(value)).replace("N", str(m)))), 4)
                             else:
-                                value = round(value, 3)
+                                value = round(value, 4)
                             values.append(value)
                         spell['datavalues'].update({
                             i['mName'].lower(): values,
@@ -631,10 +633,28 @@ def get_stat_name(stat):
     """
     Returns the stat name from an integer
     """
-    if stat == 2:
+    if stat == 1:
+        return "armor"
+    elif stat == 2:
         return "attackdamage"
+    elif stat == 3:
+        return "movespeed"
+    elif stat == 4:
+        return "magicresist"
+    elif stat == 5:
+        return "movespeed"
+    elif stat == 6:
+        return "critchance"
+    elif stat == 7:
+        return "critdamage"
     elif stat == 10:
         return "maximumhealth"
+    elif stat == 23:
+        return "lethality"
+    elif stat == 25:
+        return "attackrange"
+    else:
+        return stat
 
 
 def get_tip_list(ddragon_language, text):
@@ -692,6 +712,10 @@ def create_damage_list(damagelist):
             listitem.update({
                 'datavalue': translate.__getitem__(i['mDataValue']).lower()
             })
+            if "apratio" in listitem['datavalue']:
+                listitem.update({
+                    'stat': "abilitypower"
+                })
         if "mStat" in i:
             listitem.update({
                 'stat': get_stat_name(i['mStat'])
@@ -717,10 +741,13 @@ def create_damage_list(damagelist):
                 'endValue': round(i['mEndValue'], 3)
             })
         if "mNumber" in i:
-            if i['mNumber'] != 1:
-                listitem.update({
-                    'number': round(i['mNumber'], 3)
-                })
+            listitem.update({
+                'number': round(i['mNumber'], 3)
+            })
+        if "epicness" in i:
+            listitem.update({
+                'epicness': "LEGENDARY"
+            })
         if "mSubparts" in i:
             listitem.update({
                 'subparts': create_damage_list(i['mSubparts'])
@@ -742,12 +769,12 @@ def get_calculation(ability_bin):
     calculation = {}
     if "{50f145c0}" in ability_bin:
         calculation = create_damage_list(ability_bin['{50f145c0}'])
-        if calculation is not False:
-            return calculation
     if "mFormulaParts" in ability_bin:
-        calculation = create_damage_list(ability_bin['mFormulaParts'])
-        if calculation is not False:
-            return calculation
+        calculation['formula'] = create_damage_list(
+            ability_bin['mFormulaParts'])
+        if "mMultiplier" in ability_bin:
+            calculation['multiplier'] = get_multiplier(
+                ability_bin['mMultiplier'])
     if "mModifiedGameCalculation" in ability_bin:
         calculation = {
             'modifiedCalculation': "",
@@ -756,23 +783,32 @@ def get_calculation(ability_bin):
         calculation.update({
             'modifiedCalculation': translate.__getitem__(ability_bin['mModifiedGameCalculation']).lower()
         })
-        for j in ability_bin['mMultiplier']:
-            if j == "mBreakpoints":
-                calculation['multiplier'].update({
-                    j[1:].lower(): create_damage_list(ability_bin)
-                })
-            elif j == "mNumber":
-                calculation['multiplier'].update({
-                    j[1:].lower(): round(ability_bin['mMultiplier'][j], 3)
-                })
-            elif "part" in j.lower():
-                calculation['multiplier'].update({
-                    j[1:].lower(): create_damage_list(ability_bin['mMultiplier'][j])
-                })
-            else:
-                calculation['multiplier'].update({
-                    j[1:].lower(): translate.__getitem__(
-                        ability_bin['mMultiplier'][j])
-                })
-        return calculation
-    return None
+        calculation['multiplier'].update(
+            get_multiplier(ability_bin['mMultiplier']))
+    return calculation
+
+
+def get_multiplier(multiplier):
+    dictionary = {}
+    for j in multiplier:
+        if j == "mBreakpoints":
+            dictionary.update({
+                j[1:].lower(): create_damage_list(multiplier[j])
+            })
+        elif j == "mNumber":
+            dictionary.update({
+                j[1:].lower(): round(multiplier[j], 3)
+            })
+        elif "part" in j.lower():
+            dictionary.update({
+                j[1:].lower(): create_damage_list(multiplier[j])
+            })
+        elif "mDataValue" in j:
+            dictionary.update({
+                j[1:].lower(): translate.__getitem__(multiplier[j]).lower()
+            })
+        else:
+            dictionary.update({
+                j[1:].lower(): translate.__getitem__(multiplier[j])
+            })
+    return dictionary

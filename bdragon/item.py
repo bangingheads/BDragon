@@ -2,6 +2,7 @@ import math
 import os
 import re
 
+import champion
 import download
 import utils
 import settings
@@ -41,6 +42,7 @@ def create_item_json(cdragon_language, ddragon_language, path):
             'name': sanitize(translate.t(ddragon_language, item_bin['mDisplayName'])),
             'description': "",
             "sanitizedDescription": "",
+            "tooltip": champion.get_tooltip(ddragon_language, translate.t(ddragon_language, item_bin['mItemDataClient']['mDynamicTooltip'])),
             'colloq': translate.t(ddragon_language, "game_item_colloquialism_" + id),
             'plaintext': translate.t(ddragon_language, "game_item_plaintext_" + id),
             'epicness': ""
@@ -130,7 +132,6 @@ def create_item_json(cdragon_language, ddragon_language, path):
             items['data'][id]['consumed'] = True
         if 'usableInStore' in item_bin:
             items['data'][id]['consumeOnFull'] = True
-
         if "mRequiredAlly" in item_bin:
             items['data'][id]['requiredAlly'] = item_bin['mRequiredAlly']
         # Patch 10.23+ Fix
@@ -152,7 +153,13 @@ def create_item_json(cdragon_language, ddragon_language, path):
             items['data'][id]['datavalues'] = {}
             for i in item_bin['mDataValues']:
                 items['data'][id]['datavalues'].update({
-                    i['mName']: round(i['mValue'], 3) if "mValue" in i else 0
+                    i['mName'].lower(): round(i['mValue'], 3) if "mValue" in i else 0
+                })
+        if "{0ac4f0d5}" in item_bin:
+            items['data'][id]['calculations'] = {}
+            for i in item_bin['{0ac4f0d5}']:
+                items['data'][id]['calculations'].update({
+                    translate.__getitem__(i).lower(): champion.get_calculation(item_bin['{0ac4f0d5}'][i])
                 })
         if settings.patch['ddragon'] > "10.22.1":
             if "Boots" in items['data'][id]['group']:

@@ -47,7 +47,7 @@ Configuration can be set in the `config.yml` file located in the main directory.
 Description of configuration parameters:
 
 ```
-production: Stops download of a patch a second time.
+production: Stops download of a patch a second time, False allows you to redownload and reuse cache for the same patch.
 tarball: Creates a tarball of the files in the patch directory
 use_cdn: True or False whether you are creating a cdn with the app
 cdn_root: Root path to your cdn root (without the /cdn)

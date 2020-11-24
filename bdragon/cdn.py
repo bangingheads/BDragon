@@ -41,7 +41,7 @@ def create_cdn_patch():
                                    f"cdn/{settings.patch['json']}/img"))
     shutil.copytree(os.path.join(settings.files, f"{settings.patch['json']}/img"), os.path.join(
         settings.config['cdn']['cdn_root'], f"cdn/{settings.patch['json']}/img"))
-    if settings.patch['json'] == version.get_latest_ddragon_version() or settings.patch['json'] == "pbe":
+    if settings.patch['json'] >= version.get_latest_ddragon_version() or settings.patch['json'] == "pbe":
         if os.path.exists(os.path.join(settings.config['cdn']['cdn_root'], f"{unv_path}/champion")):
             shutil.rmtree(os.path.join(
                 settings.config['cdn']['cdn_root'], f"{unv_path}/champion"))

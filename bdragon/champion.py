@@ -122,8 +122,8 @@ def create_championfull_json(cdragon_language, ddragon_language):
             },
             'lore': cdragon_champion['shortBio'],
             'blurb': blurb(cdragon_champion['shortBio']),
-            "allytips": get_tip_list(ddragon_language, cdragon_bin['tips1']),
-            "enemytips": get_tip_list(ddragon_language, cdragon_bin['tips2']),
+            "allytips": get_tip_list(ddragon_language, cdragon_bin['tips1']) if "tips1" in cdragon_bin else "",
+            "enemytips": get_tip_list(ddragon_language, cdragon_bin['tips2']) if "tips2" in cdragon_bin else "",
             'tags': list(map(lambda x: x.title(), cdragon_champion['roles'])),
             'partype': "",
             'info': {
@@ -400,9 +400,9 @@ def create_individual_champion_json(cdragon_language, ddragon_language, champion
                 x: championfull['data'][x],
             },
         }
-    utils.save_json(
-        champion, os.path.join(
-            settings.files, f"{settings.patch['json']}/data/{ddragon_language}/champion/{x}.json"))
+        utils.save_json(
+            champion, os.path.join(
+                settings.files, f"{settings.patch['json']}/data/{ddragon_language}/champion/{x}.json"))
 
 
 def add_sprite_info(lang, path):

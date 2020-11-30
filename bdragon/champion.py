@@ -276,10 +276,6 @@ def create_championfull_json(cdragon_language, ddragon_language, capitalization=
                     spell_var['coeff'] = cdragon_champion['spells'][y]['coefficients'][i]
                     if "a" + str(j + 1) in spell['tooltip']:
                         spell_var['key'] = "a" + str(j + 1)
-                    else:
-                        spell_var['link'] = "physicaldamage"
-                        spell_var['key'] = "f" + str(j + 1)
-                    if spell_var['key'] in spell['tooltip']:
                         spell['vars'].append(spell_var)
                     j += 1
             spell['costType'] = remove_html_tags(get_tooltip(ddragon_language,
@@ -406,9 +402,7 @@ def create_individual_champion_json(cdragon_language, ddragon_language, champion
 
 
 def add_sprite_info(lang, path):
-    """
-    Adds Sprite Info to JSONs
-    """
+    """Adds Sprite Info to JSONs"""
     data = utils.load_json(os.path.join(path, "spriter_output.json"))
 
     # champion.json
@@ -520,9 +514,7 @@ def get_partype(cdragon_bin, ddragon_language):
 
 
 def blurb(bio):
-    """
-    Returns champion blurb which cuts off around 250 characters
-    """
+    """Returns champion blurb which cuts off around 250 characters"""
     if " " not in bio:
         return bio
     bio = bio[0:254]
@@ -540,16 +532,12 @@ def remove_trailing_zeros(x):
 
 
 def get_icon_name(x):
-    """
-    Returns the icon name from a CDragon path
-    """
+    """Returns the icon name from a CDragon path"""
     return x.split('/')[-1]
 
 
 def get_skin_num(id, skin_id):
-    """
-    Returns Skin Number from the Skin ID
-    """
+    """Returns Skin Number from the Skin ID"""
     skin = str(id)
     length = len(skin)
     new_id = str(skin_id)[length:]
@@ -557,9 +545,7 @@ def get_skin_num(id, skin_id):
 
 
 def get_burn_string(burn_string):
-    """
-    Makes a burn string from a list
-    """
+    """Makes a burn string from a list"""
     new_burn = ""
     burn_list = burn_string.split("/")[:-1]
     res = []
@@ -570,9 +556,7 @@ def get_burn_string(burn_string):
 
 
 def get_tooltip(lang, tooltip):
-    """
-    CDragon descriptions are @Effect@, DDragon has them in {{ effect }}
-    """
+    """CDragon descriptions are @Effect@, DDragon has them in {{ effect }}"""
     for f in re.findall(r'\{\{(.*?)\}\}', tooltip):
         string = f.replace(" ", "")
         string = translate.t(lang, string)
@@ -598,9 +582,7 @@ def get_tooltip(lang, tooltip):
 
 
 def process_spell_variables(spell):
-    """
-    DDragon has effects preprocessed where CDragon does not, need to calculate the effect amount and remove it from description
-    """
+    """DDragon has effects preprocessed where CDragon does not, need to calculate the effect amount and remove it from description"""
     for f in re.findall(r'\@(.*?)\@', spell['dynamicDescription']):
         if "Effect" in f and "Amount*" in f:
             expression = f.split("*")
@@ -619,9 +601,7 @@ def remove_html_tags(text):
 
 
 def get_stat_name(stat):
-    """
-    Returns the stat name from an integer
-    """
+    """Returns the stat name from an integer"""
     if stat == 1:
         return "armor"
     elif stat == 2:

@@ -14,7 +14,7 @@ As BDragon uses [CDTB](https://github.com/CommunityDragon/CDTB), these include C
 
 ## Configuration
 
-Configuration can be set in the `config.yml` file located in the main directory. You will need to rename `config_example.yml` to `config.yml`. This will allow updates without having to worry about having your config file replaced in the future.
+Configuration can be set in the `config.yml` file located in the main directory. You will need to rename `config_example.yml` to `config.yml` and configure the yaml to the configuration that meets your needs. This will allow updates without having to worry about having your config file replaced in the future.
 
 You can use these settings to tune what you wish to do with BDragon, whether it is just downloading files, or hosting it as a cdn.
 

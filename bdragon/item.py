@@ -9,11 +9,13 @@ import settings
 import translate
 
 
-def create_item_json(cdragon_language, ddragon_language, path):
+def create_item_json(cdragon_language, ddragon_language, path, capitalization=False):
     # Using DDragon info for basic, groups, and tree as we don't have all the hashes to build these
     ddragon_items = download.download_versioned_ddragon_items(ddragon_language)
 
     cdragon_items_bin = download.download_versioned_cdragon_items_bin()
+    cdragon_bin_full = download.download_versioned_cdragon_items_bin(
+        full=True)
     cdragon_items = download.download_versioned_cdragon_items(cdragon_language)
     cdragon_maps = download.download_versioned_cdragon_map_summary(
         cdragon_language)
@@ -143,17 +145,15 @@ def create_item_json(cdragon_language, ddragon_language, path):
 
         items['data'][id]['group'] = []
         for i in item_bin['mItemGroups']:
-            if "{" in i:
-                group = translate.__getitem__(i)
-                if "{" not in group:
-                    items['data'][id]['group'].append(group.split("/")[-1])
-            else:
-                items['data'][id]['group'].append(i.split("/")[-1])
+            name = translate.__getitem__(
+                cdragon_bin_full[i]['mItemGroupID'])
+            if "{" not in name:
+                items['data'][id]['group'].append(name)
         if "mDataValues" in item_bin:
             items['data'][id]['datavalues'] = {}
             for i in item_bin['mDataValues']:
                 items['data'][id]['datavalues'].update({
-                    i['mName'].lower(): round(i['mValue'], 3) if "mValue" in i else 0
+                    i['mName'] if capitalization else i['mName'].lower(): round(i['mValue'], 3) if "mValue" in i else 0
                 })
         if "{0ac4f0d5}" in item_bin:
             items['data'][id]['calculations'] = {}
@@ -210,8 +210,7 @@ def create_item_json(cdragon_language, ddragon_language, path):
     items['data'] = {key: items['data'][key]
                      for key in sorted(items['data'].keys())}
 
-    utils.save_json(
-        items, os.path.join(path, "item.json"))
+    utils.save_json(items, os.path.join(path, "item.json"))
     return items
 
 

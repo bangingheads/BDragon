@@ -1,0 +1,24 @@
+general:
+  # Production causes you to not download the same patch twice. Turning this default will allow you to redownload and reuse cache for testing
+  production: True
+  # Tarball decides whether or not to create a tarball in the patch directory
+  tarball: False
+
+cdn:
+  # use_cdn decides whether or not you want to copy files to a cdn directory and host them like ddragon
+  use_cdn: False
+  # cdn_root is the root directory of the domain, not including /cdn as it creates multiple endpoints
+  cdn_root: /var/www/ddragon.bangingheads.net/
+  # cdn_url is the full url domain of your ddragon cdn. Without the trailing slash
+  cdn_url: https://ddragon.bangingheads.net/cdn
+
+# Cloudflare settings are only used if cdn is enabled
+cloudflare:
+  # Purge cloudflare decides if you would like to hit cloudflare api to purge cloudflare cache after cdn regeneration, purges all files as that is all that is available in low tiers
+  purge_cloudflare: False
+  # Your cloudflare zone ID
+  cloudflare_zone_id: YOUR_ZONE_ID
+  # Your cloudflare email address
+  cloudflare_email: example@bangingheads.net
+  # Your cloudflare api auth key
+  cloudflare_auth_key: YOUR_CLOUDFLARE_API_AUTH_KEY

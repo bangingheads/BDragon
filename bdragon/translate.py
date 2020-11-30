@@ -11,9 +11,7 @@ rst = {}
 
 
 def t(language, translation):
-    """
-    Translates RST strings to Regional Strings
-    """
+    """Translates RST strings to Regional Strings"""
     global rst
     if language not in rst:
         rst[language] = RstFile(
@@ -27,9 +25,7 @@ def t(language, translation):
 
 
 def __getitem__(hash):
-    """
-    Gets an item from the hashes.txt file if it  as well as guessedhashes.txt, as CDragon is missing some hashes we create our own
-    """
+    """Gets an item from the hashes.txt file if it  as well as guessedhashes.txt, as CDragon is missing some hashes we create our own"""
     if "{" not in str(hash):
         return hash
     if os.path.exists(os.path.join(os.path.dirname(os.path.realpath(__file__)), "hashes.txt")):

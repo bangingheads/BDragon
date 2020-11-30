@@ -9,9 +9,7 @@ import utils
 
 
 def create_summoner_json(cdragon_language, ddragon_language, path):
-    """
-    Creates DDragon summoner.json
-    """
+    """Creates DDragon summoner.json"""
     cdragon_summoners = download.download_versioned_cdragon_summoner_spells(
         cdragon_language)
     ddragon_summoners = download.download_versioned_ddragon_summoner_spells(
@@ -95,20 +93,8 @@ def create_summoner_json(cdragon_language, ddragon_language, path):
     return summoners
 
 
-def get_ddragon_id(cdragon_id, ddragon_summoners):
-    """
-    Gets summoner spell from DDragon from CDragon numeric ID
-    """
-    for x in ddragon_summoners['data']:
-        if ddragon_summoners['data'][x]['key'] == str(cdragon_id):
-            return ddragon_summoners['data'][x]
-    return {}
-
-
 def add_sprite_info(lang, path):
-    """
-    Adds Sprite Info to JSONs
-    """
+    """Adds Sprite Info to JSONs"""
     data = utils.load_json(os.path.join(path, "spriter_output.json"))
     summoners = utils.load_json(os.path.join(
         path, f"data/{lang}/summoner.json"))

@@ -12,6 +12,12 @@ pip install -r requirements.txt
 
 As BDragon uses [CDTB](https://github.com/CommunityDragon/CDTB), these include CDTB's requirements.
 
+## Configuration
+
+Configuration can be set in the `config.yml` file located in the main directory. You will need to rename `config_example.yml` to `config.yml`. This will allow updates without having to worry about having your config file replaced in the future.
+
+You can use these settings to tune what you wish to do with BDragon, whether it is just downloading files, or hosting it as a cdn.
+
 ## Command Line Running
 
 You can use the command line to explain parameters `python3 bdragon -h`
@@ -39,24 +45,6 @@ This project uses a modified version of [Querijin's DragonSpriter](https://githu
 ## Files
 
 Files are generated into the `files/{patch}` directory in the main directory. `data` contains all the data jsons (cdn/patch/data), `img` contains all the versioned images of the patch (cdn/patch/img), `images` contains all the unversioned images of the patch (cdn/img)
-
-## Configuration
-
-Configuration can be set in the `config.yml` file located in the main directory. You can use these settings to tune what you wish to do with BDragon, whether it is just downloading files, or hosting it as a cdn.
-
-Description of configuration parameters:
-
-```
-production: Stops download of a patch a second time, False allows you to redownload and reuse cache for the same patch.
-tarball: Creates a tarball of the files in the patch directory
-use_cdn: True or False whether you are creating a cdn with the app
-cdn_root: Root path to your cdn root (without the /cdn)
-cdn_url: Full url of your cdn (Ending in /cdn)
-purge_cloudflare: True or False whether or not to purge cloudflare on new patch generation
-cloudflare_zone_id: Your cloudflare zone id
-cloudflare_email: Your cloudflare email address
-cloudflare_auth_key: Your cloudflare API authorization key
-```
 
 ## Contributing
 

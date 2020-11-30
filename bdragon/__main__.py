@@ -64,8 +64,10 @@ def main():
         language.create_language_json(lang, path)
         sticker.create_sticker_json(path)
 
+    # Create All Images
     images.create_all_images(championfull, items, summoners, settings.files)
     path = os.path.join(settings.files, settings.patch['json'])
+    # Add Sprites to JSONs
     for lang in settings.languages:
         champion.add_sprite_info(lang, path)
         item.add_sprite_info(lang, path)
@@ -75,8 +77,10 @@ def main():
         profileicon.add_sprite_info(lang, path)
 
     os.remove(os.path.join(path, "spriter_output.json"))
+    # Create Tarball if enabled
     if settings.config['general']['tarball'] == True:
         tarball.create_tarball(path)
+    # Update CDN if enabled
     if settings.config['cdn']['use_cdn'] == True:
         cdn.update_cdn()
 

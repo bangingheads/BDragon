@@ -60,6 +60,6 @@ Although no downtime is expected, this CDN is provided as a best effort service.
 
 ## Thank You
 
-A special shoutout to the CommunityDragon team, this project is not possible without them, they work hard for the community. More can be found about CDragon on [https://www.communitydragon.org/](their website). You can support their project on their [https://www.patreon.com/communitydragon](Patreon).
+A special shoutout to the CommunityDragon team, this project is not possible without them, they work hard for the community. More can be found about CDragon on [their website](https://www.communitydragon.org/). You can support their project on their [Patreon](https://www.patreon.com/communitydragon).
 
 A thank you to Querijin for his making of the sprite sheet maker as it saved time in building the project.

@@ -1,11 +1,9 @@
-import i18n
 import os
 import re
 
 from cdragontoolbox.rstfile import RstFile
 import download
 import hashes
-import utils
 
 rst = {}
 

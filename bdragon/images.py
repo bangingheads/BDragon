@@ -8,7 +8,6 @@ import download
 import item
 import settings
 import utils
-import version
 
 
 unv_path = ""

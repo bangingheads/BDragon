@@ -1,5 +1,3 @@
-import json
-
 import champion
 import constants
 import settings

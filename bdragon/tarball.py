@@ -8,9 +8,7 @@ directory = os.path.dirname(os.path.realpath(__file__))
 
 
 def create_tarball(path):
-    """
-    This function packages files into the .tar inside of a .tgz file structure that matches DDragon
-    """
+    """This function packages files into the .tar inside of a .tgz file structure that matches DDragon"""
     create_manifest_json()
     create_manifest_js()
     with tarfile.open(os.path.join(path, 'dragontail-' + settings.patch['json'] + '.tar'), mode='w:gz') as archive:
@@ -40,9 +38,7 @@ def create_tarball(path):
 
 
 def create_manifest_json():
-    """
-    Creates a manifest json file that matches DDragon's
-    """
+    """Creates a manifest json file that matches DDragon's"""
     json = {
         "n": {
             "item": settings.patch['json'],
@@ -67,9 +63,7 @@ def create_manifest_json():
 
 
 def create_manifest_js():
-    """
-    Creates a manifest js file based on the manifest json file already created
-    """
+    """Creates a manifest js file based on the manifest json file already created"""
     with open(os.path.join(directory, 'tarball/manifest.json')) as f:
         manifest = f.read()
     js = "Riot.DDragon.m=" + manifest

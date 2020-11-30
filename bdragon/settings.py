@@ -22,8 +22,12 @@ def init():
     global languages
     global patch
     global tarball
-    with open(os.path.join(directory, "config.yml"), "r") as ymlfile:
-        config = yaml.load(ymlfile, yaml.Loader)
+    try:
+        with open(os.path.join(directory, "config.yml"), "r") as ymlfile:
+            config = yaml.load(ymlfile, yaml.Loader)
+    except FileNotFoundError:
+        sys.exit(
+            "Please rename config_example.yml to config.yml. Reference README for more information")
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-patch", "-p", help="Generate DDragon from specific patch", default="latest")

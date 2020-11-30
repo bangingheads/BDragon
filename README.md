@@ -12,6 +12,12 @@ pip install -r requirements.txt
 
 As BDragon uses [CDTB](https://github.com/CommunityDragon/CDTB), these include CDTB's requirements.
 
+## Configuration
+
+Configuration can be set in the `config.yml` file located in the main directory. You will need to rename `config_example.yml` to `config.yml` and configure the yaml to the configuration that meets your needs. This will allow updates without having to worry about having your config file replaced in the future.
+
+You can use these settings to tune what you wish to do with BDragon, whether it is just downloading files, or hosting it as a cdn.
+
 ## Command Line Running
 
 You can use the command line to explain parameters `python3 bdragon -h`
@@ -40,24 +46,6 @@ This project uses a modified version of [Querijin's DragonSpriter](https://githu
 
 Files are generated into the `files/{patch}` directory in the main directory. `data` contains all the data jsons (cdn/patch/data), `img` contains all the versioned images of the patch (cdn/patch/img), `images` contains all the unversioned images of the patch (cdn/img)
 
-## Configuration
-
-Configuration can be set in the `config.yml` file located in the main directory. You can use these settings to tune what you wish to do with BDragon, whether it is just downloading files, or hosting it as a cdn.
-
-Description of configuration parameters:
-
-```
-production: Stops download of a patch a second time, False allows you to redownload and reuse cache for the same patch.
-tarball: Creates a tarball of the files in the patch directory
-use_cdn: True or False whether you are creating a cdn with the app
-cdn_root: Root path to your cdn root (without the /cdn)
-cdn_url: Full url of your cdn (Ending in /cdn)
-purge_cloudflare: True or False whether or not to purge cloudflare on new patch generation
-cloudflare_zone_id: Your cloudflare zone id
-cloudflare_email: Your cloudflare email address
-cloudflare_auth_key: Your cloudflare API authorization key
-```
-
 ## Contributing
 
 The best way to contribute is to fork the repository and create a Pull Request. All Pull Requests are welcome but please make sure you are only effecting the code you plan to as every small change can have a big impact parsing files.
@@ -72,6 +60,6 @@ Although no downtime is expected, this CDN is provided as a best effort service.
 
 ## Thank You
 
-A special shoutout to the CommunityDragon team, this project is not possible without them, they work hard and for free for the community and I hope everyone can thank them for that.
+A special shoutout to the CommunityDragon team, this project is not possible without them, they work hard for the community. More can be found about CDragon on [their website](https://www.communitydragon.org/). You can support their project on their [Patreon](https://www.patreon.com/communitydragon).
 
 A thank you to Querijin for his making of the sprite sheet maker as it saved time in building the project.

@@ -28,19 +28,23 @@ def update_cdn():
 
 
 def create_cdn_patch():
+    # Create patch
     if not os.path.exists(os.path.join(settings.config['cdn']['cdn_root'], f"cdn/{settings.patch['json']}")):
         os.makedirs(os.path.join(
             settings.config['cdn']['cdn_root'], f"cdn/{settings.patch['json']}"))
+    # Create data directory
     if os.path.exists(os.path.join(settings.config['cdn']['cdn_root'], f"cdn/{settings.patch['json']}/data")):
         shutil.rmtree(os.path.join(settings.config['cdn']['cdn_root'],
                                    f"cdn/{settings.patch['json']}/data"))
     shutil.copytree(os.path.join(settings.files, f"{settings.patch['json']}/data"), os.path.join(
         settings.config['cdn']['cdn_root'], f"cdn/{settings.patch['json']}/data"))
+    # Create versioned image directory
     if os.path.exists(os.path.join(settings.config['cdn']['cdn_root'], f"cdn/{settings.patch['json']}/img")):
         shutil.rmtree(os.path.join(settings.config['cdn']['cdn_root'],
                                    f"cdn/{settings.patch['json']}/img"))
     shutil.copytree(os.path.join(settings.files, f"{settings.patch['json']}/img"), os.path.join(
         settings.config['cdn']['cdn_root'], f"cdn/{settings.patch['json']}/img"))
+    # Create unversioned image directory if latest patch or pbe
     if settings.patch['json'] >= version.get_latest_ddragon_version() or settings.patch['json'] == "pbe":
         if os.path.exists(os.path.join(settings.config['cdn']['cdn_root'], f"{unv_path}/champion")):
             shutil.rmtree(os.path.join(
@@ -52,6 +56,7 @@ def create_cdn_patch():
             settings.config['cdn']['cdn_root'], f"{unv_path}/champion"))
         shutil.copytree(os.path.join(settings.files, f"{settings.patch['json']}/images/perk-images"), os.path.join(
             settings.config['cdn']['cdn_root'], f"{unv_path}/perk-images"))
+    # Create tarball
     if os.path.exists(os.path.join(settings.config['cdn']['cdn_root'], f"cdn/dragontail-{settings.patch['json']}.tgz")):
         os.remove(os.path.join(
             settings.config['cdn']['cdn_root'], f"cdn/dragontail-{settings.patch['json']}.tgz"))

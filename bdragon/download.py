@@ -1,5 +1,3 @@
-import json
-
 import champion
 import constants
 import settings
@@ -10,15 +8,12 @@ def download_versioned_cdragon_champion_summary():
     json = utils.download_json(
         constants.cdragon_url + f"/{settings.patch['cdragon']}/plugins/rcp-be-lol-game-data/global/default/v1/champion-summary.json")
     json = list(filter(lambda x: (x['id'] != -1), json))
-    # for x in json:
-    #     if x['alias'] == "FiddleSticks":
-    #         x['alias'] = "Fiddlesticks"
     json.sort(key=champion.get_alias)
     return json
 
 
 def download_versioned_cdragon_champion_summary_files():
-    # Using this as an alternative for PBE files since champion summary missing new PBE champs
+    """Using this as an alternative for PBE files since champion summary missing new PBE champs"""
     json = utils.download_json(
         constants.cdragon_url + f"/json/{settings.patch['cdragon']}/plugins/rcp-be-lol-game-data/global/default/v1/champions/")
     json = list(filter(lambda x: (x['name'] != "-1.json"), json))
@@ -30,10 +25,11 @@ def download_versioned_cdragon_champion_summary_files():
         )
 
 
-def download_versioned_cdragon_items_bin():
+def download_versioned_cdragon_items_bin(full=False):
     json = utils.download_json(
         constants.cdragon_url + f"/{settings.patch['cdragon']}/game/global/items/items.bin.json")
-    json = {k: v for k, v in json.items() if "itemID" in json[k]}
+    json = {k: v for k, v in json.items(
+    ) if "itemID" in json[k]} if full == False else json
     return json
 
 
@@ -49,12 +45,12 @@ def download_versioned_cdragon_items(language):
 
 
 def download_versioned_cdragon_perks(language):
-    # returns CDragon Perks JSON
+    """returns CDragon Perks JSON"""
     return utils.download_json(constants.cdragon_url + f"/{settings.patch['cdragon']}/plugins/rcp-be-lol-game-data/global/{language}/v1/perks.json")
 
 
 def download_versioned_cdragon_perkstyles(language):
-    # returns CDragon Perkstyles JSON
+    """returns CDragon Perkstyles JSON"""
     return utils.download_json(constants.cdragon_url + f"/{settings.patch['cdragon']}/plugins/rcp-be-lol-game-data/global/{language}/v1/perkstyles.json")
 
 
@@ -63,7 +59,7 @@ def download_versioned_cdragon_perks_bin():
 
 
 def download_versioned_cdragon_champion_splash(champion_key, skin_id):
-    # returns CDragon Champion Splash Image
+    """returns CDragon Champion Splash Image"""
     return utils.download_image(constants.cdragon_url + f"/{settings.patch['cdragon']}/plugins/rcp-be-lol-game-data/global/default/v1/champion-splashes/uncentered/{champion_key}/{skin_id}.jpg")
 
 

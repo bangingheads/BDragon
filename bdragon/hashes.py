@@ -4,13 +4,14 @@ import re
 import sys
 
 from cdragontoolbox.rstfile import RstFile
+import champion
 import download
-import settings
-import utils
+import item
 
 
 def find_hashes():
     hashes = {}
+    # Get hashes from all RST strings
     rst = RstFile(download.download_cdragon_rstfile("en_US"))
     for x in rst.entries:
         if type(rst[x]) is not str:
@@ -20,6 +21,38 @@ def find_hashes():
             hashes.update({
                 string: create_hash(string)
             })
+    # Get hashes from datavalues in champions
+    champions = champion.create_championfull_json(
+        "default", "en_US", capitalization=True)
+    for _, data in champions['data'].items():
+        for x in data['spells']:
+            if x['datavalues'] != {}:
+                for y in x['datavalues']:
+                    hashes.update({
+                        y: create_hash(y)
+                    })
+        if data['passive']['datavalues'] != {}:
+            for y in data['passive']['datavalues']:
+                hashes.update({
+                    y: create_hash(y)
+                })
+    # Get hashes from datavalues in items
+    items = item.create_item_json(
+        "default", "en_US", f"{settings.files}/{settings.patch['json']}/data/en_US", capitalization=True)
+    for _, data in items['data'].items():
+        if "datavalues" in data and data['datavalues'] != {}:
+            for y in data['datavalues']:
+                hashes.update({
+                    y: create_hash(y)
+                })
+
+    # Get hashes from ddragon item groups
+    items = download.download_versioned_ddragon_items("en_US")
+    for x in items['groups']:
+        hashes.update({
+            x['id']: create_hash(x['id'])
+        })
+
     with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "guessedhashes.txt"), "a+") as file_object:
         for x in hashes:
             file_object.write(hashes[x] + " " + x + "\n")

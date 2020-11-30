@@ -36,14 +36,14 @@ def create_champion_json(cdragon_language, ddragon_language):
         cdragon_bin = download.download_versioned_cdragon_champion_bin(
             champion)
         champions['data'][champion].update({
-            'name': if_key_exists('name', cdragon_champion),
-            'title': if_key_exists('title', cdragon_champion),
+            'name': cdragon_champion['name'] if "name" in cdragon_champion else "",
+            'title': cdragon_champion['title'] if "title" in cdragon_champion else "",
             'blurb': blurb(cdragon_champion['shortBio']),
             'info': {
-                'attack': if_key_exists('attackRank', cdragon_bin['characterToolData']),
-                'defense': if_key_exists('defenseRank', cdragon_bin['characterToolData']),
-                'magic': if_key_exists('magicRank', cdragon_bin['characterToolData']),
-                'difficulty': if_key_exists('difficultyRank', cdragon_bin['characterToolData']),
+                'attack': cdragon_bin['characterToolData']['attackRank'] if "attackRank" in cdragon_bin['characterToolData'] else 0,
+                'defense': cdragon_bin['characterToolData']['defenseRank'] if "defenseRank" in cdragon_bin['characterToolData'] else 0,
+                'magic': cdragon_bin['characterToolData']['magicRank'] if "magicRank" in cdragon_bin['characterToolData'] else 0,
+                'difficulty': cdragon_bin['characterToolData']['difficultyRank'] if "difficultyRank" in cdragon_bin['characterToolData'] else 0,
             },
             'image': {
                 'full': cdragon_champion['alias'] + '.png'
@@ -51,28 +51,28 @@ def create_champion_json(cdragon_language, ddragon_language):
             'tags': list(map(lambda x: x.title(), cdragon_champion['roles'])),
             'partype': "",
             'stats': {
-                'hp': round(cdragon_bin['baseHP'], 3),
-                'hpperlevel': cdragon_bin['hpPerLevel'],
-                'mp': round(if_key_exists('arBase', cdragon_bin['primaryAbilityResource']), 3),
-                'mpperlevel': if_key_exists('arPerLevel', cdragon_bin['primaryAbilityResource']),
-                'movespeed': cdragon_bin['baseMoveSpeed'],
-                'armor': round(cdragon_bin['baseArmor'], 3),
-                'armorperlevel': round(if_key_exists('armorPerLevel', cdragon_bin), 3),
-                'spellblock': round(cdragon_bin['baseSpellBlock'], 3),
-                'spellblockperlevel': cdragon_bin['spellBlockPerLevel'],
-                'attackrange': cdragon_bin['attackRange'],
-                'hpregen': round(if_key_exists('baseStaticHPRegen', cdragon_bin) * 5, 3),
-                'hpregenperlevel': round(cdragon_bin['hpRegenPerLevel'] * 5, 3),
-                'mpregen': round(if_key_exists('arBaseStaticRegen', cdragon_bin['primaryAbilityResource']) * 5, 3),
-                'mpregenperlevel': round(if_key_exists('arRegenPerLevel', cdragon_bin['primaryAbilityResource']) * 5, 3),
+                'hp': round(cdragon_bin['baseHP'], 3) if "baseHP" in cdragon_bin else 0,
+                'hpperlevel': round(cdragon_bin['hpPerLevel'], 3) if "hpPerLevel" in cdragon_bin else 0,
+                'mp': round(cdragon_bin['primaryAbilityResource']['arBase'], 3) if "arBase" in cdragon_bin['primaryAbilityResource'] else 0,
+                'mpperlevel': round(cdragon_bin['primaryAbilityResource']['arPerLevel'], 3) if "arPerLevel" in cdragon_bin['primaryAbilityResource'] else 0,
+                'movespeed': cdragon_bin['baseMoveSpeed'] if "baseMoveSpeed" in cdragon_bin else 0,
+                'armor': round(cdragon_bin['baseArmor'], 3) if "baseArmor" in cdragon_bin else 0,
+                'armorperlevel': round(cdragon_bin['armorPerLevel'], 3) if "armorPerLevel" in cdragon_bin else 0,
+                'spellblock': round(cdragon_bin['baseSpellBlock'], 3) if "baseSpellBlock" in cdragon_bin else 0,
+                'spellblockperlevel': round(cdragon_bin['spellBlockPerLevel'], 3) if "spellBlockPerLevel" in cdragon_bin else 0,
+                'attackrange': round(cdragon_bin['attackRange'], 3) if "attackRange" in cdragon_bin else 0,
+                'hpregen': round(cdragon_bin['baseStaticHPRegen'] * 5, 3) if "baseStaticHPRegen" in cdragon_bin else 0,
+                'hpregenperlevel': round(cdragon_bin['hpRegenPerLevel'] * 5, 3) if "hpRegenPerLevel" in cdragon_bin else 0,
+                'mpregen': round(cdragon_bin['primaryAbilityResource']['arBaseStaticRegen'] * 5, 3) if "arBaseStaticRegen" in cdragon_bin['primaryAbilityResource'] else 0,
+                'mpregenperlevel': round(cdragon_bin['primaryAbilityResource']['arRegenPerLevel'] * 5, 3) if "arRegenPerLevel" in cdragon_bin['primaryAbilityResource'] else 0,
                 'crit': 0,
                 'critperlevel': 0,
                 'critdamage': round(cdragon_bin['critDamageMultiplier'], 3) if "critDamageMultiplier" in cdragon_bin else 1.75,
-                'attackdamage': round(cdragon_bin['baseDamage'], 3),
-                'attackdamageperlevel': round(if_key_exists('damagePerLevel', cdragon_bin), 3),
-                'attackspeedperlevel': round(if_key_exists('attackSpeedPerLevel', cdragon_bin), 3),
-                'attackspeed': round(cdragon_bin['attackSpeed'], 3),
-                'attackspeedratio': round(cdragon_bin['attackSpeedRatio'], 3),
+                'attackdamage': round(cdragon_bin['baseDamage'], 3) if "baseDamage" in cdragon_bin else 0,
+                'attackdamageperlevel': round(cdragon_bin['damagePerLevel'], 3) if "damagePerLevel" in cdragon_bin else 0,
+                'attackspeedperlevel': round(cdragon_bin['attackSpeedPerLevel'], 3) if "attackSpeedPerLevel" in cdragon_bin else 0,
+                'attackspeed': round(cdragon_bin['attackSpeed'], 3) if "attackSpeed" in cdragon_bin else 0,
+                'attackspeedratio': round(cdragon_bin['attackSpeedRatio'], 3) if "attackSpeedRatio" in cdragon_bin else 0,
             },
         })
         # Need to be able to find the game_ability_resource strings from CDragon
@@ -87,7 +87,7 @@ def create_champion_json(cdragon_language, ddragon_language):
     return champions
 
 
-def create_championfull_json(cdragon_language, ddragon_language):
+def create_championfull_json(cdragon_language, ddragon_language, capitalization=False):
     cdragon_champions = download.download_versioned_cdragon_champion_summary()
     ddragon_champions = download.download_versioned_ddragon_championfull(
         ddragon_language)
@@ -127,34 +127,34 @@ def create_championfull_json(cdragon_language, ddragon_language):
             'tags': list(map(lambda x: x.title(), cdragon_champion['roles'])),
             'partype': "",
             'info': {
-                'attack': if_key_exists('attackRank', cdragon_bin['characterToolData']),
-                'defense': if_key_exists('defenseRank', cdragon_bin['characterToolData']),
-                'magic': if_key_exists('magicRank', cdragon_bin['characterToolData']),
-                'difficulty': if_key_exists('difficultyRank', cdragon_bin['characterToolData']),
+                'attack': cdragon_bin['characterToolData']['attackRank'] if "attackRank" in cdragon_bin['characterToolData'] else 0,
+                'defense': cdragon_bin['characterToolData']['defenseRank'] if "defenseRank" in cdragon_bin['characterToolData'] else 0,
+                'magic': cdragon_bin['characterToolData']['magicRank'] if "magicRank" in cdragon_bin['characterToolData'] else 0,
+                'difficulty': cdragon_bin['characterToolData']['difficultyRank'] if "difficultyRank" in cdragon_bin['characterToolData'] else 0,
             },
             'stats': {
-                'hp': round(cdragon_bin['baseHP'], 3),
-                'hpperlevel': cdragon_bin['hpPerLevel'],
-                'mp': round(if_key_exists('arBase', cdragon_bin['primaryAbilityResource']), 3),
-                'mpperlevel': if_key_exists('arPerLevel', cdragon_bin['primaryAbilityResource']),
-                'movespeed': cdragon_bin['baseMoveSpeed'],
-                'armor': round(cdragon_bin['baseArmor'], 3),
-                'armorperlevel': round(if_key_exists('armorPerLevel', cdragon_bin), 3),
-                'spellblock': round(cdragon_bin['baseSpellBlock'], 3),
-                'spellblockperlevel': round(cdragon_bin['spellBlockPerLevel'], 3),
-                'attackrange': round(cdragon_bin['attackRange'], 3),
-                'hpregen': round(if_key_exists('baseStaticHPRegen', cdragon_bin) * 5, 3),
-                'hpregenperlevel': round(cdragon_bin['hpRegenPerLevel'] * 5, 3),
-                'mpregen': round(if_key_exists('arBaseStaticRegen', cdragon_bin['primaryAbilityResource']) * 5, 3),
-                'mpregenperlevel': round(if_key_exists('arRegenPerLevel', cdragon_bin['primaryAbilityResource']) * 5, 3),
+                'hp': round(cdragon_bin['baseHP'], 3) if "baseHP" in cdragon_bin else 0,
+                'hpperlevel': round(cdragon_bin['hpPerLevel'], 3) if "hpPerLevel" in cdragon_bin else 0,
+                'mp': round(cdragon_bin['primaryAbilityResource']['arBase'], 3) if "arBase" in cdragon_bin['primaryAbilityResource'] else 0,
+                'mpperlevel': round(cdragon_bin['primaryAbilityResource']['arPerLevel'], 3) if "arPerLevel" in cdragon_bin['primaryAbilityResource'] else 0,
+                'movespeed': cdragon_bin['baseMoveSpeed'] if "baseMoveSpeed" in cdragon_bin else 0,
+                'armor': round(cdragon_bin['baseArmor'], 3) if "baseArmor" in cdragon_bin else 0,
+                'armorperlevel': round(cdragon_bin['armorPerLevel'], 3) if "armorPerLevel" in cdragon_bin else 0,
+                'spellblock': round(cdragon_bin['baseSpellBlock'], 3) if "baseSpellBlock" in cdragon_bin else 0,
+                'spellblockperlevel': round(cdragon_bin['spellBlockPerLevel'], 3) if "spellBlockPerLevel" in cdragon_bin else 0,
+                'attackrange': round(cdragon_bin['attackRange'], 3) if "attackRange" in cdragon_bin else 0,
+                'hpregen': round(cdragon_bin['baseStaticHPRegen'] * 5, 3) if "baseStaticHPRegen" in cdragon_bin else 0,
+                'hpregenperlevel': round(cdragon_bin['hpRegenPerLevel'] * 5, 3) if "hpRegenPerLevel" in cdragon_bin else 0,
+                'mpregen': round(cdragon_bin['primaryAbilityResource']['arBaseStaticRegen'] * 5, 3) if "arBaseStaticRegen" in cdragon_bin['primaryAbilityResource'] else 0,
+                'mpregenperlevel': round(cdragon_bin['primaryAbilityResource']['arRegenPerLevel'] * 5, 3) if "arRegenPerLevel" in cdragon_bin['primaryAbilityResource'] else 0,
                 'crit': 0,
                 'critperlevel': 0,
                 'critdamage': round(cdragon_bin['critDamageMultiplier'], 3) if "critDamageMultiplier" in cdragon_bin else 1.75,
-                'attackdamage': round(cdragon_bin['baseDamage'], 3),
-                'attackdamageperlevel': round(if_key_exists('damagePerLevel', cdragon_bin), 3),
-                'attackspeedperlevel': round(if_key_exists('attackSpeedPerLevel', cdragon_bin), 3),
-                'attackspeed': round(cdragon_bin['attackSpeed'], 3),
-                'attackspeedratio': round(cdragon_bin['attackSpeedRatio'], 3),
+                'attackdamage': round(cdragon_bin['baseDamage'], 3) if "baseDamage" in cdragon_bin else 0,
+                'attackdamageperlevel': round(cdragon_bin['damagePerLevel'], 3) if "damagePerLevel" in cdragon_bin else 0,
+                'attackspeedperlevel': round(cdragon_bin['attackSpeedPerLevel'], 3) if "attackSpeedPerLevel" in cdragon_bin else 0,
+                'attackspeed': round(cdragon_bin['attackSpeed'], 3) if "attackSpeed" in cdragon_bin else 0,
+                'attackspeedratio': round(cdragon_bin['attackSpeedRatio'], 3) if "attackSpeedRatio" in cdragon_bin else 0,
             },
             'spells': [],
             'passive': {},
@@ -236,7 +236,7 @@ def create_championfull_json(cdragon_language, ddragon_language):
                                 value = round(value, 4)
                             values.append(value)
                         spell['datavalues'].update({
-                            i['mName'].lower(): values,
+                            i['mName'] if capitalization else i['mName'].lower(): values,
                         })
             if "{94572284}" in cdragon_ability_bin['mSpell']:
                 spell['calculations'] = {}
@@ -276,10 +276,6 @@ def create_championfull_json(cdragon_language, ddragon_language):
                     spell_var['coeff'] = cdragon_champion['spells'][y]['coefficients'][i]
                     if "a" + str(j + 1) in spell['tooltip']:
                         spell_var['key'] = "a" + str(j + 1)
-                    else:
-                        spell_var['link'] = "physicaldamage"
-                        spell_var['key'] = "f" + str(j + 1)
-                    if spell_var['key'] in spell['tooltip']:
                         spell['vars'].append(spell_var)
                     j += 1
             spell['costType'] = remove_html_tags(get_tooltip(ddragon_language,
@@ -362,7 +358,7 @@ def create_championfull_json(cdragon_language, ddragon_language):
                             value = round(value, 3)
                         values.append(value)
                     champions['data'][champion]['passive']['datavalues'].update({
-                        i['mName'].lower(): values,
+                        i['mName'] if capitalization else i['mName'].lower(): values,
                     })
         if "{94572284}" in cdragon_passive_bin['mSpell']:
             champions['data'][champion]['passive']['calculations'] = {}
@@ -406,9 +402,7 @@ def create_individual_champion_json(cdragon_language, ddragon_language, champion
 
 
 def add_sprite_info(lang, path):
-    """
-    Adds Sprite Info to JSONs
-    """
+    """Adds Sprite Info to JSONs"""
     data = utils.load_json(os.path.join(path, "spriter_output.json"))
 
     # champion.json
@@ -483,15 +477,6 @@ def get_alias(champion):
     return champion.get('alias')
 
 
-def if_key_exists(key, dictionary):
-    """
-    Returns if key exists, if not return 0, used for stats
-    """
-    if key in dictionary:
-        return dictionary[key]
-    return 0
-
-
 def get_partype(cdragon_bin, ddragon_language):
     """
     Gets partype in the requested language.
@@ -529,9 +514,7 @@ def get_partype(cdragon_bin, ddragon_language):
 
 
 def blurb(bio):
-    """
-    Returns champion blurb which cuts off around 250 characters
-    """
+    """Returns champion blurb which cuts off around 250 characters"""
     if " " not in bio:
         return bio
     bio = bio[0:254]
@@ -549,16 +532,12 @@ def remove_trailing_zeros(x):
 
 
 def get_icon_name(x):
-    """
-    Returns the icon name from a CDragon path
-    """
+    """Returns the icon name from a CDragon path"""
     return x.split('/')[-1]
 
 
 def get_skin_num(id, skin_id):
-    """
-    Returns Skin Number from the Skin ID
-    """
+    """Returns Skin Number from the Skin ID"""
     skin = str(id)
     length = len(skin)
     new_id = str(skin_id)[length:]
@@ -566,9 +545,7 @@ def get_skin_num(id, skin_id):
 
 
 def get_burn_string(burn_string):
-    """
-    Makes a burn string from a list
-    """
+    """Makes a burn string from a list"""
     new_burn = ""
     burn_list = burn_string.split("/")[:-1]
     res = []
@@ -579,9 +556,7 @@ def get_burn_string(burn_string):
 
 
 def get_tooltip(lang, tooltip):
-    """
-    CDragon descriptions are @Effect@, DDragon has them in {{ effect }}
-    """
+    """CDragon descriptions are @Effect@, DDragon has them in {{ effect }}"""
     for f in re.findall(r'\{\{(.*?)\}\}', tooltip):
         string = f.replace(" ", "")
         string = translate.t(lang, string)
@@ -607,9 +582,7 @@ def get_tooltip(lang, tooltip):
 
 
 def process_spell_variables(spell):
-    """
-    DDragon has effects preprocessed where CDragon does not, need to calculate the effect amount and remove it from description
-    """
+    """DDragon has effects preprocessed where CDragon does not, need to calculate the effect amount and remove it from description"""
     for f in re.findall(r'\@(.*?)\@', spell['dynamicDescription']):
         if "Effect" in f and "Amount*" in f:
             expression = f.split("*")
@@ -622,17 +595,13 @@ def process_spell_variables(spell):
 
 
 def remove_html_tags(text):
-    """
-    Remove html tags from a string
-    """
+    """Remove html tags from a string"""
     clean = re.compile('<.*?>')
     return re.sub(clean, '', text)
 
 
 def get_stat_name(stat):
-    """
-    Returns the stat name from an integer
-    """
+    """Returns the stat name from an integer"""
     if stat == 1:
         return "armor"
     elif stat == 2:
@@ -658,9 +627,7 @@ def get_stat_name(stat):
 
 
 def get_tip_list(ddragon_language, text):
-    """
-    Returns a list of tips from an html string
-    """
+    """Returns a list of tips from an html string"""
     text = translate.t(ddragon_language, text)
     if text != "":
         text = text.replace("<ul><li>", "").replace("</ul>", "")
@@ -669,9 +636,7 @@ def get_tip_list(ddragon_language, text):
 
 
 def create_damage_list(damagelist):
-    """
-    Creates a damage list from a dict. This is the function that creates calculations
-    """
+    """Creates a damage list from a dict. This is the function that creates calculations"""
     totaldamagetooltip = []
     for i in damagelist:
         if isinstance(i, str):
@@ -730,7 +695,7 @@ def create_damage_list(damagelist):
             })
         if "mCoefficient" in i:
             listitem.update({
-                'coefficient': round(i['mCoefficient'], 3)
+                'coefficient': round(i['mCoefficient'], 4)
             })
         if "mStartValue" in i:
             listitem.update({
@@ -756,9 +721,13 @@ def create_damage_list(damagelist):
             damage_list = create_damage_list(i['mSubpart'])
             if damage_list != []:
                 listitem.update(damage_list[0])
-        if "mPart" in i:
+        if "mPart1" in i:
             listitem.update({
-                'part' + i[-1]: create_damage_list(i[i])
+                'part1': create_damage_list(i['mPart1'])
+            })
+        if "mPart2" in i:
+            listitem.update({
+                'part2': create_damage_list(i['mPart2'])
             })
         if listitem != {}:
             totaldamagetooltip.append(listitem)

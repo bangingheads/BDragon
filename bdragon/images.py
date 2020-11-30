@@ -8,7 +8,6 @@ import download
 import item
 import settings
 import utils
-import version
 
 
 unv_path = ""
@@ -274,7 +273,7 @@ def get_image_name_from_path(path):
 
 
 def get_path_from_string(path):
-    # Need to perfect this function
+    """Returns asset path from path string"""
     path = path.replace("/lol-game-data/assets", "")
     path = path.replace("/v1", "")
     path = path.replace("/ASSETS/Missions", "")

@@ -302,11 +302,18 @@ def create_championfull_json(cdragon_language, ddragon_language, capitalization=
                     if "nameOverride" in desc:
                         if desc['nameOverride'] == "Spell_Cost_NoCost":
                             continue
-                        if desc['nameOverride'] == "Spell_ListType_Cost":
+                        elif desc['nameOverride'] == "Spell_ListType_Cost":
                             desc['nameOverride'] = "Spell_ListType_UnnamedCost"
                         spell['leveltip']['label'].append(
                             translate.t(ddragon_language, desc['nameOverride']))
                     else:
+                        # Fix RST anomalies
+                        if desc['type'] == "CastRange":
+                            desc['type'] = "Range"
+                        elif desc['type'] == "AmmoRechargeTime":
+                            desc['type'] = "RechargeTime"
+                        elif desc['type'] == "BasePhysicalDamagePerStack":
+                            desc['type'] = "DamageperStack"
                         spell['leveltip']['label'].append(
                             translate.t(ddragon_language, "Spell_ListType_" + desc['type']))
                     percent = ""

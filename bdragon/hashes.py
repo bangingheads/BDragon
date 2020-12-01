@@ -7,6 +7,7 @@ from cdragontoolbox.rstfile import RstFile
 import champion
 import download
 import item
+import settings
 
 
 def find_hashes():

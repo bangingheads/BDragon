@@ -216,6 +216,7 @@ cef5d6aa ChargeMultiplierInverse
 801fdc73 ChogathCarnivoreMana
 945394b6 ConeAPRatio
 77fe7534 ControlWardItems
+2f999efb CooldownForSpellCalcs
 70fa45de CritBaseMult
 bac7073c CritBonus
 6206546d CritChanceAmp
@@ -309,6 +310,7 @@ dd399966 ExecuteDamagePercent
 830765cf ExtraBoltDamage
 77c09305 ExtraDamagePerSecondCharged
 d23baac2 ExtraHitBaseDamage
+2bf07bb8 FalloffHealValue
 f5468783 FalloffMod
 e2446a2c FinalDamageMult
 b0cbeb11 FinalTrueDamageOnHitTooltipOnly
@@ -468,6 +470,7 @@ f95948bf MonsterCritMod
 b4a5986a MonsterDamagePerTickCap
 010aedc7 MonsterDamageTooltip
 0b9b4c55 MonsterDamageTotalTOOLTIP
+b76e54de MovementSpeedBase
 b4d8f040 MovementSpeedPercent
 09b588a2 MovespeedBuff
 6606697b MultiBulletDamage
@@ -593,6 +596,7 @@ bdfad7ea Potion
 579f20fb PranceSpeed
 0c178539 PrimaryTargetBase
 ed68fd7f PrimaryTargetHPRatio
+b292fad9 ProcDamageBase
 7ba7344b PullDamage
 ed33b24f QAPRatioTooltip
 499c5b81 QBADRatioTooltip
@@ -631,6 +635,8 @@ f00eb477 RQ2Base
 853a5841 RQFieldDamage
 72df4115 RQTotalImpactDamage
 dfcc38b0 RShadowDurationDisplayed
+1c76da01 RStunDuration
+dd5f8626 RStunReduction
 06304373 RTotalADRatio
 b41213cb RWBase
 b19c3274 RWHealAmount
@@ -717,6 +723,7 @@ da9068a6 StunCD
 bed1a105 SubesquentDamage
 475333c2 SubsequentBurstBaseDamage
 ca89c26e SubsequentHitMultiplier
+3950b9c9 SubsequentPercent
 79be7972 SuperQBasePercentage
 9de9868e SuperQMonsterMaxDamage
 8c73f2c0 SuperQMonsterMaxDamageTotal

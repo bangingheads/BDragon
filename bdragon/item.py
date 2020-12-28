@@ -34,6 +34,7 @@ def create_item_json(cdragon_language, ddragon_language, path, capitalization=Fa
     items["data"] = {}
     for x in cdragon_items_bin:
         item_bin = cdragon_items_bin[x]
+        bin_name = x
         if ("mItemDataAvailability" not in item_bin or ("{2e97ceab}" not in item_bin['mItemDataAvailability'] and "mForceLoad" not in item_bin['mItemDataAvailability'] and "mInStore" not in item_bin['mItemDataAvailability'])) and ("mItemModifiers" not in item_bin or "{1fb38586}" not in item_bin['mItemModifiers']):
             continue
         cdragon_item = [d for d in cdragon_items if d['id']
@@ -76,11 +77,12 @@ def create_item_json(cdragon_language, ddragon_language, path, capitalization=Fa
         if "mItemDataAvailability" in item_bin and "mInStore" not in item_bin['mItemDataAvailability']:
             items['data'][id]['inStore'] = False
 
-        if "mItemDataBuild" in item_bin:
-            items['data'][id]['into'] = []
-            for into in item_bin['mItemDataBuild']['itemLinks']:
-                items['data'][id]['into'].append(
-                    str(cdragon_items_bin[into]['itemID']))
+        items['data'][id]['into'] = []
+        for _,x in cdragon_items_bin.items():
+            if "recipeItemLinks" in x:
+                for y in x['recipeItemLinks']:
+                    if y == bin_name:
+                        items['data'][id]['into'].append(str(x['itemID']))
 
         items['data'][id]['image'] = {
             'full': str(id) + ".png",

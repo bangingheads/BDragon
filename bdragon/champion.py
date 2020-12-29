@@ -268,16 +268,8 @@ def create_championfull_json(cdragon_language, ddragon_language, capitalization=
                 spell['effectBurn'][i] = get_burn_string(
                     spell['effectBurn'][i])
             spell['vars'] = []
-            j = 0
-            for i in cdragon_champion['spells'][y]['coefficients']:
-                if cdragon_champion['spells'][y]['coefficients'][i] != 0:
-                    spell_var = {}
-                    spell_var['link'] = "spelldamage"
-                    spell_var['coeff'] = cdragon_champion['spells'][y]['coefficients'][i]
-                    if "a" + str(j + 1) in spell['tooltip']:
-                        spell_var['key'] = "a" + str(j + 1)
-                        spell['vars'].append(spell_var)
-                    j += 1
+            if spell['tooltip'] != "":
+                spell['vars'] = get_spell_vars(translate.t(ddragon_language, cdragon_ability_bin['mSpell']['mClientData']['mTooltipData']['mLocKeys']['keyTooltip']), cdragon_champion['spells'][y]['coefficients'])
             spell['costType'] = remove_html_tags(get_tooltip(ddragon_language,
                                                              cdragon_champion['spells'][y]['cost']))
             if "}}" in spell['costType']:
@@ -577,6 +569,8 @@ def get_tooltip(lang, tooltip):
                       "e" + str(i))
     x = x.replace("charabilitypower2", "a2")
     x = x.replace("charabilitypower", "a1")
+    x = x.replace("chartotalphysical2", "a2")
+    x = x.replace("chartotalphysical", "a1")
 
     # Replace font tags with span classes, if there are multiple they can end up in the wrong order but it is classes so it shouldn't matter
     x = x.replace("<font", '<span class=\"')
@@ -640,6 +634,28 @@ def get_tip_list(ddragon_language, text):
         text = text.replace("<ul><li>", "").replace("</ul>", "")
         return text.split("<li>")
     return []
+
+def get_spell_vars(tooltip, coefficients):
+    """Returns spell variables from coefficients that are inside the tooltip"""
+    spell_vars = []
+    for i in coefficients:
+        if coefficients[i] != 0:
+            number = i.replace("coefficient", "")
+            var_number = number
+            if number == "1":
+                number = ""
+            spell_var = {}
+            if "@CharTotalPhysical" + number + "@" in tooltip:
+                spell_var['link'] = "attackdamage"
+                spell_var['coeff'] = coefficients[i]
+                spell_var['key'] = "a" + var_number
+                spell_vars.append(spell_var)
+            elif "@CharAbilityPower" + number + "@" in tooltip:
+                spell_var['link'] = "spelldamage"
+                spell_var['coeff'] = coefficients[i]
+                spell_var['key'] = "a" + var_number
+                spell_vars.append(spell_var)
+    return spell_vars
 
 
 def create_damage_list(damagelist):

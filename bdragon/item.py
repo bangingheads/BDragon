@@ -78,7 +78,7 @@ def create_item_json(cdragon_language, ddragon_language, path, capitalization=Fa
             items['data'][id]['inStore'] = False
 
         items['data'][id]['into'] = []
-        for _,x in cdragon_items_bin.items():
+        for _, x in cdragon_items_bin.items():
             if "recipeItemLinks" in x:
                 for y in x['recipeItemLinks']:
                     if y == bin_name:
@@ -195,6 +195,9 @@ def create_item_json(cdragon_language, ddragon_language, path, capitalization=Fa
                 x for x in items['data'][item]['from'] if x in items['data']]
             if len(items['data'][item]['from']) == 0:
                 del items['data'][item]['from']
+        if "specialRecipe" in items['data'][item]:
+            if str(items['data'][item]['specialRecipe']) not in items['data']:
+                del(items['data'][item]['specialRecipe'])
 
     # Calculate actual depth
     for item in items['data']:

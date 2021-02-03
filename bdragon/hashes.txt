@@ -112,6 +112,7 @@ c9a5e946 AttackDamageMax
 a54c8020 AttackDamageTT
 96aef553 AttackHeal
 999ef955 AttackSpeedCalc
+f9b84b7d AttackSpeedPerMissingHPPerc
 01caf267 AttackTotalDMG
 f2aa68b0 AugmentShieldBonus
 f7e6cdeb AuraDamage
@@ -347,6 +348,7 @@ d23baac2 ExtraHitBaseDamage
 f5468783 FalloffMod
 31be37df FeastStackMultiplier
 e2446a2c FinalDamageMult
+f710d41f FinalMSPerc
 b0cbeb11 FinalTrueDamageOnHitTooltipOnly
 bc8b695f FireboltDamage
 6e674fa2 FirstHitDamageTooltip
@@ -449,6 +451,7 @@ ba657e7e ManaRestoreForTooltip
 85862e11 MarkDamage
 ba7aa8ee MarksmanCapstone
 992ed4eb MaxADBonus
+d210ed1c MaxAttackSpeed
 068f4c2d MaxAuraMonsterDamage
 64f5428f MaxBonusAttackSpeed
 1e5c2386 MaxBonusDamagePercent
@@ -539,6 +542,7 @@ b4d8f040 MovementSpeedPercent
 d366aae3 MultiMissileReduction
 58e0fa20 MultiMissileTotal
 c7601d82 MythicADPerLegendary
+f585d19a MythicAP
 e6d8f4aa MythicASBonus
 541fd81e MythicBonus
 18e822d2 MythicHasteAmount
@@ -546,11 +550,14 @@ e6d8f4aa MythicASBonus
 78354f67 MythicMSPerLegendary
 b7789576 MythicMagicPenPercent
 3ef50fb7 MythicMagicPenetration
+27c4fbb2 MythicOmnivamp
 e2551094 MythicPassive
+ef38dcbc MythicPassiveAPBonus
 5a39e94d MythicPassiveAbilityHaste
 217ef13b MythicPassiveBonus
 6a0557ba MythicPassiveBonusTooltip
 f8f4288c MythicPassiveHP
+b2d1a6ec MythicPassiveOmnivampBonus
 53518d28 MythicPassiveSizeTOOLTIP
 294192ea MythicPenAmount
 3f0ecb5d MythicStatAmount
@@ -734,6 +741,7 @@ a6f37cec Resists
 08e05b0f ReturnBaseDamage
 b036d3a5 RockDamage
 37d9a590 RocketDamage
+cb208236 RocketTAD
 c24238c0 RootDamage
 690e7f2e SLIMEStarterItems
 0bde30ee STBaseDamage

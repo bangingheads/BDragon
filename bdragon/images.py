@@ -1,3 +1,4 @@
+import io
 import os
 import platform
 import shutil
@@ -156,14 +157,18 @@ def create_versioned_item_icons(items):
         os.makedirs(os.path.join(ver_path, "item"))
     cdragon_items_bin = download.download_versioned_cdragon_items_bin()
     for x in items['data']:
-        print(x)
         item_bin = item.get_item_bin(x, cdragon_items_bin)
-        if int(x) == 4633:
-            print(item_bin)
         image = download.download_versioned_cdragon_item_icon(
             item_bin['mItemDataClient']['inventoryIcon'])
-        with open(os.path.join(ver_path, f"item/{x}.png"), "wb") as f:
-            f.write(image)
+        if "mItemModifiers" in item_bin and "{1fb38586}" in item_bin["mItemModifiers"]:
+            item_image = Image.open(io.BytesIO(image))
+            overlay = Image.open(io.BytesIO(download.download_image(
+                "http://raw.communitydragon.org/latest/game/assets/items/itemmodifiers/bordertreatmentornn.png")))
+            item_image.paste(overlay, (0, 0), overlay)
+            item_image.save(os.path.join(ver_path, f"item/{x}.png"), "PNG")
+        else:
+            with open(os.path.join(ver_path, f"item/{x}.png"), "wb") as f:
+                f.write(image)
     return
 
 

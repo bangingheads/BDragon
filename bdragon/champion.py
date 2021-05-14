@@ -238,11 +238,14 @@ def create_championfull_json(cdragon_language, ddragon_language, capitalization=
                         spell['datavalues'].update({
                             i['mName'] if capitalization else i['mName'].lower(): values,
                         })
-            if "{94572284}" in cdragon_ability_bin['mSpell']:
+            if "mSpellCalculations" in cdragon_ability_bin['mSpell'] or "{94572284}" in cdragon_ability_bin['mSpell']:
+                # Support Pre 11.8 where spell calculations was missing hash
+                if "{94572284}" in cdragon_ability_bin['mSpell']:
+                    cdragon_ability_bin['mSpell']["{94572284}"] = cdragon_ability_bin['mSpell']["mSpellCalculations"]
                 spell['calculations'] = {}
-                for i in cdragon_ability_bin['mSpell']['{94572284}']:
+                for i in cdragon_ability_bin['mSpell']['mSpellCalculations']:
                     spell['calculations'].update({
-                        translate.__getitem__(i).lower(): get_calculation(cdragon_ability_bin['mSpell']['{94572284}'][i])
+                        translate.__getitem__(i).lower(): get_calculation(cdragon_ability_bin['mSpell']['mSpellCalculations'][i])
                     })
             if "formulas" in cdragon_champion['spells'][y]:
                 spell['formulas'] = {}
@@ -329,7 +332,7 @@ def create_championfull_json(cdragon_language, ddragon_language, capitalization=
 
         # Passive
         cdragon_passive_bin = download.download_versioned_cdragon_champion_bin_ability(
-            champion, cdragon_bin['{e96f0412}'] if "{e96f0412}" in cdragon_bin else cdragon_bin['passiveSpell'])
+            champion, cdragon_bin['{e96f0412}'] if "{e96f0412}" in cdragon_bin else cdragon_bin['mCharacterPassiveSpell'] if "mCharacterPassiveSpell" in cdragon_bin else cdragon_bin['passiveSpell'])
         champions['data'][champion]['passive'].update({
             'id': cdragon_passive_bin['mScriptName'].split("/")[-1],
             'name': cdragon_champion['passive']['name'],
@@ -783,7 +786,9 @@ def get_calculation(ability_bin):
 def get_multiplier(multiplier):
     dictionary = {}
     for j in multiplier:
-        if j == "mBreakpoints":
+        if j == "__type":
+            continue
+        elif j == "mBreakpoints":
             dictionary.update({
                 j[1:].lower(): create_damage_list(multiplier[j])
             })

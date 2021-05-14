@@ -96,6 +96,7 @@ c52cde53 AllyAuraMythicPassive
 7af3cce5 AllyHeal
 03a560d7 AllyMS
 4387d5cd AllyResist
+d04c36d0 AllyTooltipLeachValue
 a0bde86c AmmoRechargeRateBaseTooltip
 070ff06f AmmoRechargeRateTooltip
 36480dc9 AmountToBlock
@@ -121,6 +122,7 @@ f7e6cdeb AuraDamage
 292bbdbb BADRatio
 1c7dde3c BaseADBonus
 509c4f64 BaseADPerStack
+16e025af BaseAttackSpeed
 df52861f BaseBiteDamage
 ff2cfd2e BaseCritDamageMultiplier
 725eb199 BaseDamageAftershock
@@ -180,6 +182,7 @@ f6b0b002 BonusArmorTooltip
 c94903f8 BonusCritDamageRatio
 0db90ee0 BonusCurentHealthDamage
 7d1075e8 BonusDamageBase
+356fde56 BonusDamageMultiplier
 e59e6565 BonusDamageTT
 49726207 BonusDamageToMinions
 033f86b5 BonusEnemyMaxHealthDamage
@@ -215,6 +218,7 @@ cb948e7a BuildsFromStopwatchGroup
 79f5f843 CCAttachLockout
 e368d8d0 CalculatedSlowAmount
 7ca9e398 ChainLightningDamageTooltip
+899e50fa ChampHeal
 d1d81a46 ChampHealing
 f3a98b94 ChampLevelReached
 56b3f555 ChampRange
@@ -261,6 +265,7 @@ fe409784 DamageBonusPVE
 90309d78 DamageConversionPercentage
 ed325470 DamageDone
 bc2cb061 DamageIfThreeSpheres
+99e95239 DamageLeechPerc
 ce4ed7c0 DamageMaxTotal
 56237ed0 DamagePerPulse
 968dece7 DamagePerSecondMax
@@ -295,7 +300,9 @@ cebf74b3 DragonDamagePerSecondCalc
 fb18b452 DragonDamageTotalCalc
 7d17fa89 DrainDamageCalc
 02a70103 DynamicRangeIncrease
+5f0b8e30 E1PercentageOfTotal
 c51e9cf3 E2Damage
+50dbd17f E2PercentageOfTotal
 5ea5cfa0 EBaseDamage
 e48d9230 EMarkBonus
 1901e3b2 EShieldBaseHealth
@@ -307,6 +314,7 @@ da4c459a EchoPercentTooltipOnly
 54aa4d6a EdgeDamageReduction
 439457c7 EffigyDuration
 483cfa2a Elixir
+e83916ba EmpChampHeal
 e08b5a06 EmpChampHealing
 2ec3ec00 EmpDamage
 238b41f7 EmpFlatDamage
@@ -349,6 +357,7 @@ f5468783 FalloffMod
 31be37df FeastStackMultiplier
 e2446a2c FinalDamageMult
 f710d41f FinalMSPerc
+3ed37366 FinalSwipeDamage
 b0cbeb11 FinalTrueDamageOnHitTooltipOnly
 bc8b695f FireboltDamage
 6e674fa2 FirstHitDamageTooltip
@@ -422,6 +431,7 @@ a44698ed InfernumRBonusDamage
 a133d007 InitialBurstBaseDamage
 19d777a6 InitialBurstDamage
 29909f4e InitialDamageAmountPercentage
+8a6c2967 InitialDamageCalc
 2d31a671 InitialHeal
 dfa5fda6 InitialProcDamageAmount
 9bd40a81 InterruptDamage
@@ -433,6 +443,7 @@ cf639619 IsEmpowered
 cb7b6abd LandingDamage
 2ece4364 LaserAPRatio
 bb7c8959 LastWhisper
+60a1a54a LeechAmount
 a75d142f LegendaryClearingItems
 1224eae9 LichBaneAPValue
 1a37e857 LifelineItems
@@ -442,6 +453,7 @@ a75d142f LegendaryClearingItems
 63b1a61c MSSteal
 41e22f84 MagicDamagePerStack
 b409ebfa MagicDamageReduction
+3add534b MagicalDamagePerSecond
 f9b2ab95 ManaPerCharge
 03494ad0 ManaRestore
 ba657e7e ManaRestoreForTooltip
@@ -501,7 +513,9 @@ fbe2eb62 MinSpeed
 a263220e MinSpellbladeDamage
 d780070b MinStun
 c350693e MinTotalDamage
+0a5a7462 MiniDamageRatio
 3d9338c5 MiniSubsequentMult
+0757f2e1 MiniSwipeDamage
 c51dcc36 MinimumDamage
 6d625f7d MinimumDamageMinions
 552cfb64 MinimumDamagePerTick
@@ -567,6 +581,7 @@ d9736fba NearestEnemyBonus
 98cb1979 NetDamage
 e7884a41 NoImpactDamageScalar
 d92bf4c3 NonChampHealing
+9c24d0c2 NonSelfLeechRatio
 e45b309f NormalDamage
 b2b75e9d NoxianMightBonusAD
 e11e310b NumberOfBolts
@@ -661,11 +676,13 @@ b779205d PercentOmniVampMod
 68dbef2b PercentWolfDamage
 8426521f PercentageOfBonusHP
 1997db83 PhoenixAoEDuration
+ed03988c PhysicalDamagePerSecond
 1f9250e8 PhysicalDamagePerStack
 e8efa6e6 PhysicalDamageReduction
 90a7bca1 PoisonDuration
 bdfad7ea Potion
 550605fe PounceDamage
+4d016f96 PowerBallDamage
 4787a681 PowerChordDamage
 2053f9b6 PranceBonusPerStack
 579f20fb PranceSpeed
@@ -673,11 +690,14 @@ bdfad7ea Potion
 ed68fd7f PrimaryTargetHPRatio
 b292fad9 ProcDamageBase
 7ba7344b PullDamage
+99b50632 PulseBaseDamage
+7e7cb2e2 PulseDamageCalc
 ed33b24f QAPRatioTooltip
 499c5b81 QBADRatioTooltip
 f0847984 QBaseDamage
 43db6a36 QBonusAD
 37db5752 QBonusAP
+acb91f87 QCritDamageMod
 a141ce4c QEdgeDamage
 8286c138 QEmpowerPercentHP
 2c4aa134 QEmpoweredAmp
@@ -721,6 +741,7 @@ b41213cb RWBase
 b19c3274 RWHealAmount
 47857800 RWTotalRoot
 c7f19e3c RWallHitDamageMultiplier
+898b7f2a RampageBonusDamagePerc
 82c9595a RampageBonusRatio
 ccebe3ab RangePercentIncrease
 ea1217fc RangedEffectiveness
@@ -830,8 +851,10 @@ cbb497b6 SweetSpotDamage
 763fa96c SweetSpotMultiplier
 92934bde SweetSpotTotalDamage
 949a8c34 SwipeDamage
+b1217801 SwipeDamageBase
 e4b30b1e TTFirstHitEnergy
 c4beb97e TackleDamage
+5ca4fcf2 TakedownBaseDamage
 d547ff49 TantrumDamage
 20ebfeef TapDamage
 232980d2 TauntDamage
@@ -866,6 +889,7 @@ bd14fb1f TooltipBaseMeepDamage
 426d7ce1 TooltipDamage
 c05e5c87 TooltipHealthCost
 9b9373dd TooltipMaxArmor
+5d820782 TooltipMaxDamageCalc
 b6541a5c TooltipMaxHealthShieldRatio
 01b20ba9 TooltipMaxTargetsHit
 61b6b0cd TooltipQADRatio
@@ -892,6 +916,8 @@ c8f2acb1 TotalBurnDamage
 9037c062 TotalChillingDamage
 b7844e6f TotalConeDamage
 f39b14e6 TotalDPS
+60e63441 TotalDamage3
+62e63767 TotalDamage5
 e1cd30a2 TotalDamageActive
 78e501d4 TotalDamageAmount
 6df029ac TotalDamageCrit
@@ -948,6 +974,7 @@ dc241559 TotalPercentHealthDamage
 c584552a TotalPercentHealthDamageFeared
 5b864cf6 TotalPercentHealthOnHit
 80f05e1b TotalQAttackSpeed
+c7a0c9e4 TotalResists
 93647046 TotalReturnDamage
 4b16eb68 TotalRootDamage
 6594c758 TotalShield
@@ -975,6 +1002,7 @@ f4e9b5ef UpfrontShieldHealthRatio
 9f59f055 VanillaBase
 a0054fa1 VanillaDamage
 45c81bbe VanillaFalloff
+b910d8aa VarusWMaxChargeHPDamage
 fdd9e74e VarusWOnHitDamage
 2cbd7a1a VarusWOnHitRatio
 4cbd3804 ViktorHexCore

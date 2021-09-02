@@ -14,6 +14,8 @@ def create_profileicon_json(lang, path):
         "data": {}
     }
     for x in cdragon_profileicons:
+        if "iconPath" not in x:
+            continue
         icon_id = x["id"]
         profileicon["data"][icon_id] = {
             "id": icon_id,

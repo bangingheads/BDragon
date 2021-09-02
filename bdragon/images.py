@@ -218,6 +218,8 @@ def create_versioned_profile_icons():
         os.makedirs(os.path.join(ver_path, "profileicon"))
     cdragon_profileicons = download.download_versioned_cdragon_profileicons_summary()
     for x in cdragon_profileicons:
+        if "iconPath" not in x:
+            continue
         image = download.download_versioned_cdragon_profile_icon(x['id'])
         with open(os.path.join(ver_path, f"profileicon/{x['id']}.jpg"), "wb") as f:
             f.write(image)
